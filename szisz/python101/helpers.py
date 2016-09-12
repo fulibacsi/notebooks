@@ -282,8 +282,7 @@ def check_updated_grocery_list(data):
             assert len(value) == 2, "Value size mismatch!"
             measure, quantity = value
         else:
-            assert len(value) == 1, "Value size mismatch!"
-            (measure, quantity), = value.items()
+            measure, quantity = extract_from_dict(value)
         if not isstr(measure):
             measure, quantity = quantity, measure
         assert isstr(measure), "Measurement type mismatch!"
