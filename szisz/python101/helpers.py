@@ -9,6 +9,7 @@ import collections
 import csv
 import codecs
 import random
+import time
 import re
 import IPython.display
 
@@ -376,3 +377,8 @@ class FakeMapReduce(object):
     def __str__(self):
         return "<{} with values {}>".format(self.__class__.__name__, self.data)
         
+        
+def slowadd(x, y):
+    print 'executing {} + {}'.format(x, y)
+    time.sleep(random.random())
+    return x + y
