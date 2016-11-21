@@ -5,6 +5,7 @@
 import os
 import string
 import operator
+import collections
 import csv
 import codecs
 import random
@@ -332,4 +333,46 @@ def check_book(book):
     for chapter in book:
         check_chapter(chapter)
     return book
+        
+    
+class FakeMapReduce(object):
+    """An untested, unreliable, unparallel, undistributed
+    fake mapreduce "framework" for demonstration purposes only.
+    """
+    
+    def __init__(self, data, default=int):
+        self.data = data
+        self.default = default
+        
+    def map(self, function):
+        data = map(function, self.data)
+        return FakeMapReduce(data, self.default)
+        
+    def flatMap(self, function):
+        data = map(function, sum(self.data, []))
+        return FakeMapReduce(data, self.default)
+    
+    def filter(self, function):
+        data = filter(function, self.data)
+        return FakeMapReduce(data, self.default)
+        
+    def reduce(self, function):
+        data = reduce(function, 
+                      self.data, 
+                      collections.defaultdict(self.default)),
+        return FakeMapReduce(data, self.default)
+    
+    def reduceByKey(self, function):
+        key_value = collections.defaultdict(list)
+        
+        for key, value in self.data:
+            key_value[key].append(value)
+        
+        for key, value in key_value.items():
+            key_value[key] = reduce(function, value)
+        
+        return FakeMapReduce(key_value, self.default)
+    
+    def __str__(self):
+        return "<{} with values {}>".format(self.__class__.__name__, self.data)
         
