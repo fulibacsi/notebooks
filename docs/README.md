@@ -4,7 +4,7 @@
 
 ### Resources
 
-- The course material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/tree/master/szisz/python101/resources/python101.zip)ped archive.
+- The course material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
 
 
 ## Data Science 101
