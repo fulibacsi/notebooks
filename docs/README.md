@@ -1,37 +1,22 @@
-## Welcome to GitHub Pages
+# Welcome to SzISz courses
 
-You can use the [editor on GitHub](https://github.com/fulibacsi/notebooks/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Python 101
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Resources
 
-### Markdown
+- The course material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/tree/master/szisz/python101/resources/python101.zip)ped archive.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+## Data Science 101
 
-# Header 1
-## Header 2
-### Header 3
+### Assignments
 
-- Bulleted
-- List
+1. The dawn of time
+	- Download the dataset (`train.csv`, `test.csv`) from [this](https://www.kaggle.com/c/titanic/data) Kaggle site. A basic description of the dataset can be found there as well.
+	- Create a `Survived` column in the test file.
+	- Based on the cases seen in the train file fill out the values in the test file.
 
-1. Numbered
-2. List
 
-**Bold** and _Italic_ and `Code` text
+### Resources
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/fulibacsi/notebooks/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Resources will be available as the semester progresses.
