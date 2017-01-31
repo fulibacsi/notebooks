@@ -12,10 +12,8 @@
 ### Assignments
 
 1. The dawn of time
-	- Download the dataset (`train.csv`, `test.csv`) from [this](https://www.kaggle.com/c/titanic/data) Kaggle site. A basic description of the dataset can be found there as well.
-	- Create a `Survived` column in the test file.
-	- Based on the cases seen in the train file fill out the values in the test file.
-
+	- Download the dataset (`titanic.csv`) from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv) and fill out the missing values in the survived column based on the cases with existing survived values.
+	- Download and solve the 0th notebook from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS_szisz_2016_I_0.ipynb).
 
 ### Resources
 
