@@ -13,8 +13,18 @@
 
 1. The dawn of time
 	- Download the dataset (`titanic.csv`) from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv) and fill out the missing values in the survived column based on the cases with existing survived values.
-	- Download and solve the 0th notebook from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS_szisz_2016_I_0.ipynb).
+	- Download and solve the 0th notebook from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb).
+2. I love flowers
+    - Create a predicteng model on the flower subspecies in the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
+
 
 ### Resources
 
-Resources will be available as the semester progresses.
+0. 0th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb)
+    - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv)
+1. 1st week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_1.ipynb)
+    - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic_full.csv)
+
+More resources will be available as the semester progresses.
