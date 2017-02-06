@@ -15,7 +15,7 @@
 	- Download the dataset (`titanic.csv`) from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv) and fill out the missing values in the survived column based on the cases with existing survived values.
 	- Download and solve the 0th notebook from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb).
 2. I love flowers
-    - Create a predicteng model on the flower subspecies in the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
+    - Build a predicting model on the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
 
 
 ### Resources
