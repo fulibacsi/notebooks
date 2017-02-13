@@ -11,11 +11,13 @@
 
 ### Assignments
 
-1. The dawn of time
+1. I will survive
 	- Download the dataset (`titanic.csv`) from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv) and fill out the missing values in the survived column based on the cases with existing survived values.
 	- Download and solve the 0th notebook from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb).
 2. I love flowers
-    - Build a predicting model on the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
+    - Build a prediction model on the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
+3. Money-money-money
+    - Build a prediction model on the [loan prediction](https://www.analyticsvidhya.com/wp-content/uploads/2016/07/loan_prediction-1.zip) dataset.
 
 
 ### Resources
@@ -26,5 +28,8 @@
 1. 1st week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_1.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic_full.csv)
+2. 2nd week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_2.ipynb)
+
 
 More resources will be available as the semester progresses.
