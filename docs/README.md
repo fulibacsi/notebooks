@@ -17,19 +17,24 @@
 2. I love flowers
     - Build a prediction model on the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
 3. Money-money-money
-    - Build a prediction model on the [loan prediction](https://www.analyticsvidhya.com/wp-content/uploads/2016/07/loan_prediction-1.zip) dataset.
+    - Build a prediction model on the [loan prediction](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/loan.csv) dataset.
+4. Mystery quest
+    - TBA
 
 
 ### Resources
 
-0. 0th week
+- 0th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv)
-1. 1st week
+- 1st week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_1.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic_full.csv)
-2. 2nd week
+- 2nd week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_2.ipynb)
+- 3rd week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_3.ipynb)
+    - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/loan.csv)
 
 
 More resources will be available as the semester progresses.
