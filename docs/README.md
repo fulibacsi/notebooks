@@ -18,8 +18,10 @@
     - Build a prediction model on the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
 3. Money-money-money
     - Build a prediction model on the [loan prediction](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/loan.csv) dataset.
-4. Mystery quest
-    - TBA
+4. Fast&Furious
+    - Examine the following dataset on [cars from 2004](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/04cars.csv)
+5. Spam-spam-[SPAM](https://www.youtube.com/watch?v=anwy2MPT5RE)
+    - Build a spam filter based on this [sms spam](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/SMSSpamCollection) dataset.
 
 
 ### Resources
@@ -35,6 +37,8 @@
 - 3rd week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_3.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/loan.csv)
+- 4th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_4.ipynb)
 
 
 More resources will be available as the semester progresses.
