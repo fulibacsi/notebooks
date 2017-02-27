@@ -26,7 +26,7 @@
 
 ### Resources
 
-    - [Cheatsheet](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/Cheatsheet.ipynb)
+- [Cheatsheet](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/Cheatsheet.ipynb)
 - 0th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv)
