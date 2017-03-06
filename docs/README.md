@@ -14,7 +14,7 @@
 1. I will survive
 	- Download the dataset (`titanic.csv`) from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv) and fill out the missing values in the survived column based on the cases with existing survived values.
 	- Download and solve the 0th notebook from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb).
-2. I love flowers
+2. Roses are red, iris are purple
     - Build a prediction model on the [iris](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) dataset.
 3. Money-money-money
     - Build a prediction model on the [loan prediction](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/loan.csv) dataset.
@@ -22,10 +22,13 @@
     - Examine the following dataset on [cars from 2004](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/04cars.csv)
 5. Spam-spam-[SPAM](https://www.youtube.com/watch?v=anwy2MPT5RE)
     - Build a spam filter based on this [sms spam](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/SMSSpamCollection) dataset.
+6. The number of digits are too damn high
+    - Build a hand-written digit recognizer from this [digits](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html) dataset.
 
 
 ### Resources
 
+- [Cheatsheet](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/Cheatsheet.ipynb)
 - 0th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_0.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/titanic.csv)
@@ -39,7 +42,8 @@
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/loan.csv)
 - 4th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_4.ipynb)
-
-[Cheatsheet](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/Cheatsheet.ipynb)
+- 5th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_5.ipynb)
+    - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/SMSSpamCollection)
 
 More resources will be available as the semester progresses.
