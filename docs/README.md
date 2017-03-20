@@ -26,6 +26,8 @@
     - Build a hand-written digit recognizer from this [digits](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html) dataset.
 7. One does not simply win a race
     - Register on [kaggle.com](https://www.kaggle.com/?login=true) and participate the [Job Salary prediction](https://www.kaggle.com/c/job-salary-prediction/data) competition.
+8. Jolly ride!
+    - ???
 
 
 ### Resources
@@ -49,5 +51,7 @@
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/data/SMSSpamCollection)
 - 6th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_6.ipynb)
+- 7th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_7.ipynb)
 
 More resources will be available as the semester progresses.
