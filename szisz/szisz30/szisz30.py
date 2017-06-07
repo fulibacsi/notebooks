@@ -25,29 +25,58 @@ def merge_dicts(*dict_args):
 
 class RPS(object):
     
-    win_map = {'k': 'p', 
-               'p': 'o', 
-               'o': 'k'}
+    trump = {'k': 'p', 
+             'p': 'o', 
+             'o': 'k'}
     
-    def __init__(self):
+    def __init__(self, mode='naive', seed=None):
+        random.seed(seed)
+        self.mode = mode
         self.reset()
         
     def reset(self):
-        self.choices = ['k', 'p', 'o']
-        self.prev = None
+        self.pool = ['k', 'p', 'o']
         self.game_log = []
+        if self.mode == 'stateful':
+            self.pool = {key: ['k', 'p', 'o'] for key in ['k', 'p', 'o']}
+            self.state = None
         
     def play(self, player):
-        ai = random.choice(self.choices)
-        player_won = self.win_map[ai] == player
+        ai = self.trump[self.predict()]
+        result = self.result(ai, player)
         
-        self.log_game(ai, player, player_won)
+        self.log_game(ai, player, result)
+        self.learn(player)
+
+        return result
         
-        # "LEARN"
-        self.choices.append(self.win_map[player])
-        self.prev = player # TODO: use this information for better prediction
+    def result(self, ai, player):
+        if ai == player:
+            return 0
+        if self.trump[ai] == player:
+            return 1
+        return -1
         
-        return player_won
+    def random(self):
+        return random.choice(['k', 'p', 'o'])
+            
+    def predict(self):
+        if self.mode == 'null':
+            return self.random()
+        elif self.mode == 'naive':
+            return random.choice(self.pool)
+        elif self.mode == 'stateful':
+            if self.state is None:
+                return self.random()
+            return random.choice(self.pool[self.state])
+    
+    def learn(self, player):
+        if self.mode == 'naive':
+            self.pool.append(player)
+        elif self.mode == 'stateful':
+            if self.state is not None:
+                self.pool[self.state].append(player)
+            self.state = player
     
     def log_game(self, ai, player, win):
         log = {'ai': ai, 
@@ -57,17 +86,60 @@ class RPS(object):
         self.game_log.append(log)
         
     def generate_probs(self):
-        mem_length = float(len(self.choices))
-        probs = dict(Counter(self.choices))
-        return {'k': probs['k'] / mem_length,
-                'p': probs['p'] / mem_length,
-                'o': probs['o'] / mem_length}
+        probs = {}
         
+        pools = self.pool
+        if isinstance(pools, list):
+            pools = {self.mode: pools}
+        
+        for hand, pool in pools.items():
+            pool_length = float(len(pool))
+            prob = dict(Counter(pool))
+            probs[hand] = {'k': prob['k'] / pool_length,
+                           'p': prob['p'] / pool_length,
+                           'o': prob['o'] / pool_length}
+
+        return probs
+    
     def stats(self):
+        wins = sum([game['win'] == 1 for game in self.game_log])
+        draws = sum([game['win'] == 0 for game in self.game_log])
+        losses = sum([game['win'] == -1 for game in self.game_log])
+        score = sum([game['win'] for game in self.game_log])
+
         return {'Number of games': len(self.game_log),
-                'Number of player wins': sum([game['win'] for game in self.game_log]),
+                'Number of player wins': wins,
+                'Number of draws': draws,
+                'Number of ai wins': losses,
+                'AI score': score,
                 'Final probabilities': self.generate_probs()}
         
+    def plot_probs(self):
+        probs = self.generate_probs()
+        width = len(probs.keys())
         
+        fig, ax = plt.subplots(ncols=width, sharey=True)
+        if width == 1:
+            ax = [ax]
+            
+        for i, (hand, pool) in enumerate(probs.items()):
+            ax[i].bar(range(len(pool)), pool.values(), align='center')
+            plt.setp(ax[i], xticks=range(len(pool)), xticklabels=pool.keys())
+            ax[i].set_title(hand)
+            
+        return fig
+
+    def plot_win_ratio(self):
+        fig, ax = plt.subplots()
+        wins = sum([game['win'] == 1 for game in self.game_log])
+        draws = sum([game['win'] == 0 for game in self.game_log])
+        losses = sum([game['win'] == -1 for game in self.game_log])
         
+        ax.bar(range(3), [wins, draws, losses], align='center')
+        plt.setp(ax, xticks=range(3), xticklabels=['wins', 'draws', 'losses'])
+        ax.set_title('Outcome')
+
+        return fig
+            
         
+ 
