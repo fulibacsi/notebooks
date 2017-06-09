@@ -327,17 +327,30 @@ def generate_interface(ai):
     def play(hand):
         def func(button):
             result = ai.play_one(hand)
+            text = u"<br/><h1 style='background-color:{}'>{}</b>"
             if result == 0:
-                text = u"<b style='background-color:yellow'>döntetlen</b>"
+                text = text.format(u'yellow', u'döntetlen')
             elif result == -1:
-                text = u"<b style='background-color:red'>vereség</b>"
+                text = text.format(u'red', u'vereség')
             else:
-                text = u"<b style='background-color:green'>győzelem</b>"
+                text = text.format(u'green', u'győzelem')
             result_box.value = text
+
+            pics = {'k': u"<img src='pics/rock.gif' align='left'/>",
+                    'p': u"<img src='pics/paper.gif' align='left'/>",
+                    'o': u"<img src='pics/scissors.gif' align='left'/>"}
+            ai_hand.value = (u'<center><b>AI:</b></center><br/>' +
+                             pics[ai.game_log[-1]['ai']])
+            player_hand.value = (u'<center><b>Ön:</b></center><br/>' +
+                                 pics[hand])
         return func
 
-    result_box = widgets.HTML(
-        placeholder=u"<b style='background-color:grey'>Kő-papír-olló!</b>")
+    ai_hand = widgets.HTML()
+    player_hand = widgets.HTML()
+    result_box = widgets.HTML()
+
+    result_container = widgets.HBox()
+    result_container.children = [ai_hand, result_box, player_hand]
 
     rock_button = widgets.Button(description='ko')
     rock_button.on_click(play('k'))
@@ -352,6 +365,6 @@ def generate_interface(ai):
     button_container.children = [rock_button, paper_button, scissors_button]
 
     container = widgets.VBox()
-    container.children = [button_container, result_box]
+    container.children = [button_container, result_container]
 
     return container
