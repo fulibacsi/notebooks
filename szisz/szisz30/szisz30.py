@@ -55,7 +55,7 @@ class RPS(object):
             'p': 'o',
             'o': 'k'}
     transform_map = {'z': [0, 0, 0],
-                     'k': [1, 0, 0], 
+                     'k': [1, 0, 0],
                      'p': [0, 1, 0],
                      'o': [0, 0, 1]}
 
@@ -74,11 +74,11 @@ class RPS(object):
             # all zero previous games
             self.state = {'player': ['z'] * 5,
                           'ai': ['z'] * 5}
-    
+
     def generate_stateful_pool(self):
         keys = []
         for i in range(self.memsize):
-            variations = [''.join(pair) 
+            variations = [''.join(pair)
                           for pair in product('kpo', repeat=i + 1)]
             keys += variations
         return {key: ['k', 'p', 'o'] for key in keys}
@@ -300,7 +300,7 @@ class Simulate(object):
     def evaluate(self):
         p1wins = sum([game['result'] == 'p1' for game in self.game_log])
         p2wins = sum([game['result'] == 'p2' for game in self.game_log])
-        
+
         return {'p1wins': p1wins,
                 'p2wins': p2wins,
                 'p1score': p1wins - p2wins,
