@@ -60,4 +60,18 @@
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_8.ipynb)
     - [dataset](https://www.kaggle.com/c/job-salary-prediction/data)
 
-More resources will be available as the semester progresses.
+
+## SZISZ30 conference slideshow (in hungarian)
+
+[Slides](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/szisz30/szisz30slides.ipynb)
+
+Requirements:
+
+- jupyter notebook
+- numpy
+- pandas
+- matplotlib
+- seaborn
+- https://github.com/damianavila/RISE
+
+Clone or download the [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides properly.
