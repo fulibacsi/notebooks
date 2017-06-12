@@ -6,6 +6,7 @@
 
 - The course material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
 
+---
 
 ## Data Science 101
 
@@ -28,10 +29,6 @@
     - Register on [kaggle.com](https://www.kaggle.com/?login=true) and participate the [Job Salary prediction](https://www.kaggle.com/c/job-salary-prediction/data) competition.
 8. The completionist
     - Complete the [8th notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_8.ipynb).
-9. Storms are coming
-    - ???
-
-
 
 ### Resources
 
@@ -60,12 +57,13 @@
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/ds101/DS101_8.ipynb)
     - [dataset](https://www.kaggle.com/c/job-salary-prediction/data)
 
+---
 
 ## SZISZ30 conference slideshow (in hungarian)
 
-[Slides](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/szisz30/szisz30slides.ipynb)
+You can download the raw slides from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/szisz30/szisz30slides.ipynb). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides properly.
 
-Requirements:
+Running the slides requires the following python packages:
 
 - jupyter notebook
 - numpy
@@ -73,5 +71,3 @@ Requirements:
 - matplotlib
 - seaborn
 - https://github.com/damianavila/RISE
-
-Clone or download the [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides properly.
