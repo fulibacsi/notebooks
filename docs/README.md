@@ -61,13 +61,14 @@
 
 ## SZISZ30 conference slideshow (in hungarian)
 
-You can download the raw slides from [here](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/szisz30/szisz30slides.ipynb). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides properly.
+You can view the raw (github rendered) slides [here](https://github.com/fulibacsi/notebooks/blob/master/szisz/szisz30/szisz30slides.ipynb). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
 
 Running the slides requires the following python packages:
 
 - jupyter notebook
 - numpy
 - pandas
+- scikit-learn
 - matplotlib
 - seaborn
 - https://github.com/damianavila/RISE
