@@ -281,9 +281,9 @@ class Simulate(object):
         self.log(p1hand, p2hand, result)
 
         if not self.p1static:
-            self.p1.learn(p2hand)
+            self.p1.learn(p1hand, p2hand)
         if not self.p2static:
-            self.p2.learn(p1hand)
+            self.p2.learn(p2hand, p1hand)
 
     def result(self, p1, p2):
         if p1 == p2:
