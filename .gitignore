@@ -61,6 +61,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# Virtualenv
+.python-version
+
 #####=== OSX ===#####
 .DS_Store
 .AppleDouble
