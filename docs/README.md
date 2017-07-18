@@ -1,4 +1,4 @@
-# Welcome to SzISz courses
+# SZISZ COURSES
 
 ## Python 101
 
@@ -59,6 +59,8 @@
 
 ---
 
+# PRESENTATIONS
+
 ## SZISZ30 conference slideshow (in hungarian)
 
 You can view the raw (github rendered) slides [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/szisz30/szisz30slides.ipynb). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
@@ -69,6 +71,22 @@ Running the slides requires the following python packages:
 - numpy
 - pandas
 - scikit-learn
+- matplotlib
+- seaborn
+- https://github.com/damianavila/RISE
+
+---
+
+## NYATA2017 conference slideshow (in hungarian)
+
+You can view the raw (github rendered) slides [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/nyata2017/nyata2017slides.ipynb). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly. To download and process the required documents, please use [this](https://github.com/fulibacsi/notebooks/blob/master/presentations/nyata2017/scrape_mek.ipynb) notebook.
+
+Running the slides requires the following python packages:
+
+- jupyter notebook
+- numpy
+- dask
+- distributed
 - matplotlib
 - seaborn
 - https://github.com/damianavila/RISE
