@@ -36,8 +36,8 @@ def print_most_common(wordcount, precomputed=False):
         print word, cnt
         
 
-def generate_random_matrix(size, distributed=False):
-    if distributed:
+def generate_random_matrix(size, distribute=False):
+    if distribute:
         return da.random.normal(10, 0.1, size=size, chunks=(2000, 2000))
     return np.random.normal(10, 0.1, size=size)
         
