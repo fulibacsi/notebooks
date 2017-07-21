@@ -2,6 +2,7 @@
 
 import os
 
+from collections import defaultdict
 from collections import Counter
 
 import matplotlib.pyplot as plt
@@ -28,8 +29,8 @@ def plot_histogram(books):
     ax.hist([len(book) for book in books], bins=1000)
 
 
-def print_most_common(wordcount, precomputed=False):
-    if not precomputed:
+def print_most_common(wordcount):
+    if isinstance(wordcount, defaultdict):
         wordcount = Counter(wordcount).most_common(10) 
 
     for word, cnt in wordcount:
