@@ -1,2 +1,3 @@
-# notebooks
-Jupyter Notebooks for different purposes
+# Notebooks 
+
+Jupyter Notebooks for various purposes
