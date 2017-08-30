@@ -19,6 +19,23 @@ AND = operator.and_
 
 # ============ functions ============
 
+
+# Import lolviz lib
+def fix_graphviz_path():
+    """Fixes graphviz path. (windows only!)"""
+    import os
+    import sys
+    find_at_end = 'lib'
+    anaconda_path = [path for path in sys.path
+                     if path.endswith(find_at_end)][0]
+    graphviz_path = os.path.join(anaconda_path, os.pardir)
+    graphviz_path += '\\Library\\bin\\graphviz\\'
+    graphviz_path = os.path.abspath(graphviz_path)
+
+    if graphviz_path not in os.environ['PATH']:
+        os.environ['PATH'] += graphviz_path + ';'
+
+    
 # Image print
 def print_image(source, _type='img', width=None, height=None):
     """Display an image. (IPython notebook exclusive!)
@@ -44,6 +61,7 @@ def print_image(source, _type='img', width=None, height=None):
             IPython.display.SVG(source, width, height)
         )
 
+        
 # CSV reader
 def import_from_csv(filename):
     """Returns the rows from the specified csv file.
@@ -58,6 +76,7 @@ def import_from_csv(filename):
         for row in CSV:
             data.append(row)
     return data
+
 
 # CSV writer
 def export_to_csv(filename, data):
@@ -75,6 +94,7 @@ def export_to_csv(filename, data):
         for row in data:
             CSV.writerow(row)
 
+            
 # file listing
 def list_files(target_dir=''):
     """Collect the filenames from the specified directory.
@@ -89,6 +109,7 @@ def list_files(target_dir=''):
         for _file in os.listdir('.' + target_dir)
         if os.path.isfile('.' + target_dir + '/' + _file)
     ]
+
 
 # fake download function
 def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
@@ -154,6 +175,7 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     else:
         return 'Creation successful.'
 
+    
 # rename erroneous subtitle
 def rename_subtitle(original, new, target_dir):
     """Renames the specified file to a new name.
@@ -171,6 +193,7 @@ def rename_subtitle(original, new, target_dir):
     if original in list_files(target_dir):
         os.rename('.' + target_dir + original, '.' + target_dir + new)
 
+        
 def find_episode_number(filename):
     """Finds the seasons and episode numbers.
     Arguments:
@@ -187,6 +210,7 @@ def find_episode_number(filename):
     else:
         return None
 
+    
 def encrypt(text, strength=4, level=1):
     """"Encrypt" a text by inserting random character [strength] times
     (level=1), and by  sliding the letters by [strength] positions (level=2),
@@ -227,113 +251,6 @@ def encrypt(text, strength=4, level=1):
         ]
 
     return ''.join(encrypted)
-
-
-# custom assert functions
-
-def isstr(candidate):
-    return isinstance(candidate, (str, unicode))
-    
-
-def isiter(candidate):
-    return isinstance(candidate, (tuple, list, dict))
-    
-    
-def islist(candidate):
-    return isinstance(candidate, (tuple, list))
-    
-
-def isdict(candidate):
-    return isinstance(candidate, dict)
-    
-    
-def isnumber(candidate):
-    return isinstance(candidate, (int, float))
-
-
-def extract_from_dict(data):
-    if len(data) == 1:
-        (a, b), = data.items()
-    elif len(data) == 2:
-        (a_key, a_value), (b_key, b_value) = data.items()
-        if isstr(a_key) and isstr(b_key):
-            a, b = a_value, b_value
-        else:
-            a, b = a_key, b_key
-    else:
-        assert False, "Wrong dictionary format!"
-    return a, b
-
-        
-def check_grocery_list(data):
-    assert isdict(data), "Wrong data type!"
-    assert len(data.items()) > 4, "Too short!"
-    for key, value in data.items():
-        assert isstr(key), "Wrong key type!"
-        assert isnumber(value), "Wrong value type!"
-    return data
-
-
-def check_updated_grocery_list(data):
-    assert isdict(data), "Wrong data type!"
-    assert len(data.items()) > 4, "Too short!"
-    for key, value in data.items():
-        assert isstr(key), "Wrong key type!"
-        assert isiter(value), "Wrong value type!"
-        if islist(value):
-            assert len(value) == 2, "Value size mismatch!"
-            measure, quantity = value
-        else:
-            measure, quantity = extract_from_dict(value)
-        if not isstr(measure):
-            measure, quantity = quantity, measure
-        assert isstr(measure), "Measurement type mismatch!"
-        assert isnumber(quantity), "Quantity type mismatch!"
-            
-    return data
-
-    
-def check_decision_list(decision_list):
-    assert islist(decision_list), "Wrong decision list type! ({})".format(decision_list)
-    assert len(decision_list) > 0, "Empty decision list!"
-    for item in decision_list:
-        assert isiter(item), "Wrong decision list item type!"
-        if islist(item):
-            assert len(item) == 2, "Wrong decision list item size!"
-            text, target = item
-        else:
-            text, target = extract_from_dict(item)
-        if not isstr(text):
-            text, target = target, text
-        assert isstr(text), "Wrong decision text type! ({})".format(text)
-        assert isinstance(target, (int, bool)), "Wrong decision target chapter type! ({})".format(target)
-
-        
-def check_chapter(chapter):
-    assert isdict(chapter), "Wrong chapter type!"
-    number, data = extract_from_dict(chapter)
-    if not isnumber(number):
-        number, data = data, number
-    assert isnumber(number), "Wrong chapter number type! ({})".format(number)
-    assert isiter(data), "Wrong chapter data type! ({})".format(data)
-    if islist(data):
-        assert len(data) == 2, "Wrong chapter data length!"
-        text, decision_list = data
-    else:
-        text, decision_list = extract_from_dict(data)
-    if not isstr(text):
-        text, decision_list = decision_list, text
-    assert isstr(text), "Wrong chapter text type! ({})".format(text)
-    check_decision_list(decision_list)
-        
-        
-def check_book(book):
-    assert isiter(book), "Wrong book type!"
-    if isdict(book):
-        book = [{'number': number, 'data': data} for number, data in book.items()]
-    for chapter in book:
-        check_chapter(chapter)
-    return book
         
     
 class FakeMapReduce(object):
