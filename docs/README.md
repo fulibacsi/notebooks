@@ -4,7 +4,13 @@
 
 ### Resources
 
-- The course material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
+- 1st week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_01.ipynb)
+    - [required files](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/resources/resources.zip)
+- 2nd week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_02.ipynb)
+
+- Last year's material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
 
 ---
 
