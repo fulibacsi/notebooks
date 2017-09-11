@@ -23,6 +23,9 @@ AND = operator.and_
 # Import lolviz lib
 def fix_graphviz_path():
     """Fixes graphviz path. (windows only!)"""
+    import platform
+    if not platform.system() == 'Windows':
+        return 'No fix necessary.'
     import os
     import sys
     find_at_end = 'lib'
@@ -35,7 +38,8 @@ def fix_graphviz_path():
     if graphviz_path not in os.environ['PATH']:
         os.environ['PATH'] += graphviz_path + ';'
 
-    
+    return 'Fix applied.'
+
 # Image print
 def print_image(source, _type='img', width=None, height=None):
     """Display an image. (IPython notebook exclusive!)
@@ -61,7 +65,7 @@ def print_image(source, _type='img', width=None, height=None):
             IPython.display.SVG(source, width, height)
         )
 
-        
+
 # CSV reader
 def import_from_csv(filename):
     """Returns the rows from the specified csv file.
@@ -94,7 +98,7 @@ def export_to_csv(filename, data):
         for row in data:
             CSV.writerow(row)
 
-            
+
 # file listing
 def list_files(target_dir=''):
     """Collect the filenames from the specified directory.
@@ -175,7 +179,7 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     else:
         return 'Creation successful.'
 
-    
+
 # rename erroneous subtitle
 def rename_subtitle(original, new, target_dir):
     """Renames the specified file to a new name.
@@ -193,7 +197,7 @@ def rename_subtitle(original, new, target_dir):
     if original in list_files(target_dir):
         os.rename('.' + target_dir + original, '.' + target_dir + new)
 
-        
+
 def find_episode_number(filename):
     """Finds the seasons and episode numbers.
     Arguments:
@@ -210,7 +214,7 @@ def find_episode_number(filename):
     else:
         return None
 
-    
+
 def encrypt(text, strength=4, level=1):
     """"Encrypt" a text by inserting random character [strength] times
     (level=1), and by  sliding the letters by [strength] positions (level=2),
@@ -251,50 +255,50 @@ def encrypt(text, strength=4, level=1):
         ]
 
     return ''.join(encrypted)
-        
-    
+
+
 class FakeMapReduce(object):
     """An untested, unreliable, unparallel, undistributed
     fake mapreduce "framework" for demonstration purposes only.
     """
-    
+
     def __init__(self, data, default=int):
         self.data = data
         self.default = default
-        
+
     def map(self, function):
         data = map(function, self.data)
         return FakeMapReduce(data, self.default)
-        
+
     def flatMap(self, function):
         data = map(function, sum(self.data, []))
         return FakeMapReduce(data, self.default)
-    
+
     def filter(self, function):
         data = filter(function, self.data)
         return FakeMapReduce(data, self.default)
-        
+
     def reduce(self, function):
-        data = reduce(function, 
-                      self.data, 
+        data = reduce(function,
+                      self.data,
                       collections.defaultdict(self.default)),
         return FakeMapReduce(data, self.default)
-    
+
     def reduceByKey(self, function):
         key_value = collections.defaultdict(list)
-        
+
         for key, value in self.data:
             key_value[key].append(value)
-        
+
         for key, value in key_value.items():
             key_value[key] = reduce(function, value)
-        
+
         return FakeMapReduce(key_value, self.default)
-    
+
     def __str__(self):
         return "<{} with values {}>".format(self.__class__.__name__, self.data)
-        
-        
+
+
 def slowadd(x, y):
     print 'executing {} + {}'.format(x, y)
     time.sleep(random.random())
