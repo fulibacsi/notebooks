@@ -14,6 +14,7 @@
     - [required data files](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/resources/data.zip)
 - 4th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_04.ipynb)
+    - [assignment](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_04_hw.ipynb)
 
 - Last year's material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
 
