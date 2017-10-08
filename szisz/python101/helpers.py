@@ -303,3 +303,70 @@ def slowadd(x, y):
     print 'executing {} + {}'.format(x, y)
     time.sleep(random.random())
     return x + y
+
+
+# BALL WIDGET
+from ipywidgets import widgets
+from time import sleep
+
+
+class BouncingBall(object):
+    
+    def __init__(self, width, height, Ball):
+        self.width = width
+        self.height = height
+        self.widget = self.init_widget()
+        self.ball = Ball()
+        
+    def init_widget(self):
+        # add button to start/stop loop
+        return widgets.Textarea()
+        
+    def field(self, i, j):
+        field = [['_' for _ in range(self.width)]
+                 for _ in range(self.height)]
+        field[i][j] = 'x'
+        return field
+    
+    def draw_field(self, field):
+        return '\n'.join([''.join(x) for x in field])
+
+    def update(self, i, j):
+        self.widget.value = self.draw_field(self.field(i, j))
+        
+    def show(self):
+        return self.widget
+    
+    def step(self):
+        self.ball.step()
+        i, j = self.ball.x, self.ball.y
+        self.update(i, j)
+        
+    def play(self):
+        # TODO: iter until stop criteria (add button)
+        self.update(self.ball.x, self.ball.y)
+        for i in range(50):
+            self.step()
+            sleep(.1)
+
+class DemoBall(object):
+    
+    def __init__(self):
+        self.x = 0
+        self.y = 3
+        self.vx = 1
+        self.vy = 1
+        self.maxx = 5
+        self.maxy = 7
+        
+    def step(self):
+        nextx = self.x + self.vx 
+        nexty = self.y + self.vy
+        if nextx >= self.maxx or nextx < 0:
+            self.vx *= -1
+            nextx = self.x + self.vx
+        if nexty >= self.maxy or nexty < 0:
+            self.vy *= -1
+            nexty = self.y + self.vy
+        self.x = nextx
+        self.y = nexty
