@@ -310,62 +310,81 @@ from ipywidgets import widgets
 from time import sleep
 
 
-class BouncingBall(object):
+class BouncyBallSimulator(object):
     
-    def __init__(self, width, height, Ball):
-        self.width = width
-        self.height = height
-        self.widget = self.init_widget()
-        self.ball = Ball()
+    def __init__(self, ball, emptychar=' '):
+        self.ball = ball
         
-    def init_widget(self):
-        # add button to start/stop loop
-        return widgets.Textarea()
+        self.height = self.ball.max_x
+        self.width = self.ball.max_y
         
-    def field(self, i, j):
-        field = [['_' for _ in range(self.width)]
-                 for _ in range(self.height)]
-        field[i][j] = 'x'
-        return field
-    
-    def draw_field(self, field):
-        return '\n'.join([''.join(x) for x in field])
-
-    def update(self, i, j):
-        self.widget.value = self.draw_field(self.field(i, j))
+        self.emptychar = emptychar
+      
+        self.widget = self.init_widgets()
+        
+    def init_widgets(self):
+        # iter slider
+        numiter = widgets.IntSlider(value=50, min=1, step=1)
+        # start button
+        startbutton = widgets.Button(description='start')
+        startbutton.on_click(lambda x: self.play(numiter.value))
+        
+        # pack iterslider and start button together
+        buttonbox = widgets.HBox()
+        buttonbox.children = [startbutton, numiter]
+        
+        # draw area
+        self.textarea = widgets.Textarea()
+        
+        # packed widget
+        container = widgets.VBox()
+        container.children = [buttonbox, self.textarea]
+        
+        return container
         
     def show(self):
         return self.widget
+        
+    def draw(self, i, j):
+        field = [[self.emptychar for _ in range(self.width)]
+                 for _ in range(self.height)]
+        field[i][j] = 'o'
+        
+        fieldstr = '\n'.join([''.join(char) for char in field])
+        self.textarea.value =  fieldstr
     
     def step(self):
         self.ball.step()
         i, j = self.ball.x, self.ball.y
-        self.update(i, j)
+        self.draw(i, j)
         
-    def play(self):
-        # TODO: iter until stop criteria (add button)
-        self.update(self.ball.x, self.ball.y)
-        for i in range(50):
+    def play(self, numiter=50):
+        # draw init position
+        i, j = self.ball.x, self.ball.y
+        self.draw(i, j)
+       
+        for iteration in range(numiter):
             self.step()
             sleep(.1)
 
+            
 class DemoBall(object):
     
-    def __init__(self):
-        self.x = 0
-        self.y = 3
-        self.vx = 1
-        self.vy = 1
-        self.maxx = 5
-        self.maxy = 7
+    def __init__(self, x, y, vx=1, vy=1, max_x=5, max_y=7):
+        self.x = x
+        self.y = y
+        self.vx = vx
+        self.vy = vy
+        self.max_x = max_x
+        self.max_y = max_y
         
     def step(self):
         nextx = self.x + self.vx 
         nexty = self.y + self.vy
-        if nextx >= self.maxx or nextx < 0:
+        if nextx >= self.max_x or nextx < 0:
             self.vx *= -1
             nextx = self.x + self.vx
-        if nexty >= self.maxy or nexty < 0:
+        if nexty >= self.max_y or nexty < 0:
             self.vy *= -1
             nexty = self.y + self.vy
         self.x = nextx
