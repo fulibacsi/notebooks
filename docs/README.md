@@ -17,7 +17,7 @@
     - [assignment](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_04_hw.ipynb)
 - 5th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_05.ipynb)
-    - [updated helpers.py]https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/helpers.py)
+    - [updated helpers.py](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/helpers.py)
 - Last year's material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
 
 ---
