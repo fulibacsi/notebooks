@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<title>tutorial2production</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- Intro -->
+				<section id="intro">
+					<h2>Tutorial &rarr; production</h2>
+					<h4>Pillanatképek egy ajánlórendszer fejlesztéséből</h3>
+					<p>
+						<small>Fülöp András / <a href="http://twitter.com/fulibacsi">@fulibacsi</a></small>
+					</p>
+				</section>
+
+
+				<!-- Lensa intro -->
+				<section id="lensa_intro">
+					<section>
+						<h1>Lensa</h1>
+					</section>
+
+					<section id="lenscom">
+						<h2>Mit csinálunk?</h2>
+						<img src="resources/lensa.png">
+					</section>
+
+					<section id="gitential">
+						<h2>Mit csinálunk?</h2>
+						<img src="resources/gitential.png">
+					</section>
+
+					<section id="lensa_details">
+						<h3><a href="lensa.com">Lensa.com</a> Állásajánló portál</h3>
+						<ul>
+							<li class="fragment">
+								<a>Felhasználóink</a> felé:
+								<ul>
+									<li>USA álláshirdetéseiből</li>
+									<li>Előfizetőknek generált levél ajánlatokkal</li>
+									<li>Az oldal látogatóinak azonnali ajánlás</li>
+								</ul>
+							</li>
+							<li class="fragment">
+								Hirdetési <a>partnereink</a> felé:
+								<ul>
+									<li>Hirdetési feedek fogadása, feldolgozása</li>
+									<li>Feed-ekben található állások ajánlása</li>
+									<li>kattintás / regisztrálás után jutalék</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section id="lensa_stat">
+						<h2>Egy kis Lensa statisztika</h2>
+						<ul>
+							<li class='fragment'><a>50k</a> felhasználó / nap</li>
+							<li class='fragment'>átlagosan <a>1 200</a> ajánlás / perc</li>
+							<li class='fragment'><a>4M</a> levél / nap</li>
+							<li class='fragment'>25 partner, 4 óránként új feeddel</li>
+							<li class='fragment'>átlagosan <a>900k</a> job / jobfeed</li>
+							<li class='fragment'>4 óránként ~ <a>22.5M</a> új job</li>
+						</ul>
+					</section>
+				</section>
+
+
+				<!-- Match intro -->
+				<section id="match_intro">
+					<section>
+						<h1>Match<h1>
+					</section>
+
+					<section id="match_purpose">
+						<h2>Feladat</h2>
+						<ul>
+							<li>Feed-ek ellenőrzése, fogadása</li>
+							<li>Feed-ek <a>előfeldolgozás</a>a</li>
+							<li>Állások <a>ajánlás</a>a az előfeldolgozott feed-ekből</li>
+							<li>Statisztikák és dokumentumok archiválása</li>
+						</ul>
+					</section>
+
+					<section id="match_preprocess">
+						<h2>Előfeldolgozás</h2>
+						<ul>
+							<li>
+								<b>Bemenet:</b>
+								<ul>
+									<li>többnyire strukturált XML</li>
+								</ul>
+							</li>
+							<li>
+								<b>Kimenet:</b>
+								<ul>
+									<li>Vektorizált állások</li>
+									<li>Index-elt dokumentumok</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section id="match_rec">
+						<h2>Ajánlás</h2>
+						<ul>
+							<li>
+								<b>Bemenet:</b>
+								<ul>
+									<li>Vektorizált állások</li>
+									<li>Index-elt dokumentumok</li>
+									<li>Felhasználói preferenciák</li>
+									<li>Üzleti preferenciák</li>
+								</ul>
+							</li>
+							<li>
+								<b>Kimenet:</b>
+								<ul>
+									<li>Ajánlott dokumentumok</li>
+									<li>Ajánlási score-ok</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+
+				<!-- Match dev story -->
+				<section id="match_dev_story">
+					<section>
+						<h1>Kihívások<h1>
+					</section>
+
+					<section id="methods">
+						<h2>Módszertan</h2>
+						<ul>
+							<li class='fragment'>Miért nem hagyományos ajánlórendszer?</li>
+							<li class='fragment'>Miért nem szabadszavas kereső?</li>
+							<li class='fragment'>Miért SIMAT?</li>
+ 						</ul>
+					</section>
+
+					<section id="noisy_data">
+						<h2>Zajos adatok</h2>
+						<table>
+							<tr>
+								<td class='fragment' data-fragment-index="1" style="border: none;">több nyelv</td>
+								<td class='fragment' data-fragment-index="2" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="2" style="border: none;">minőségvizsgálat</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="3" style="border: none;">duplikátumok</td>
+								<td class='fragment' data-fragment-index="4" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="4" style="border: none;">deduplikáció</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="5" style="border: none;">"copy-paste" hirdetések</td>
+								<td class='fragment' data-fragment-index="6" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="6" style="border: none;">nem 1-1 dedup</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="7" style="border: none;">hirdetés több helyszínen</td>
+								<td class='fragment' data-fragment-index="8" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="8" style="border: none;">geo alapú dedup</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="9" style="border: none;">zajos pozíciók</td>
+								<td class='fragment' data-fragment-index="10" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="10" style="border: none;">pozíciónormalizálás</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="11" style="border: none;">spam pozíciók</td>
+								<td class='fragment' data-fragment-index="12" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="12" style="border: none;">egyedi kivételek</td>
+							</tr>
+						</table>
+					</section>
+
+					<section id="speed">
+						<h2>Sebesség</h2>
+						<table>
+							<tr>
+								<td class='fragment' data-fragment-index="1" style="border: none;">számításigényes távolságszámítás</td>
+								<td class='fragment' data-fragment-index="2" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="2" style="border: none;">komponensenkénti szűkítés</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="3" style="border: none;">nagy adatátvitel</td>
+								<td class='fragment' data-fragment-index="4" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="4" style="border: none;">szűkített adatok küldése</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="5" style="border: none;">típuskonverziók</td>
+								<td class='fragment' data-fragment-index="6" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="6" style="border: none;">típusok egységesítése</td>
+							</tr>
+							<tr>
+								<td class='fragment' data-fragment-index="7" style="border: none;">változó feedméretek</td>
+								<td class='fragment' data-fragment-index="8" style="border: none;">&rarr;</td>
+								<td class='fragment' data-fragment-index="8" style="border: none;">dinamikus skálázás</td>
+							</tr>
+						</table>
+					</section>
+
+					<section id="tech_problems">
+						<h2>Technológiai buktatók</h2>
+						<ul>
+							<li class='fragment'>processzek menedzselése</li>
+							<li class='fragment'>memória fregmentáció</li>
+							<li class='fragment'>korlátozott tárhely és docker image-k</li>
+							<li class='fragment'>load balancer</li>
+						</ul>
+					</section>
+
+					<section id="to_solve">
+						<h2>Megoldásra vár</h2>
+						<ul>
+							<li class='fragment'>Közvetett és késleltetett visszajelzés</li>
+							<li class='fragment'>A/B teszt hiánya</li>
+							<li class='fragment'>Csapatok közti kommunikáció</li>
+							<li class='fragment'>Egy állás több feed-ben, különböző értékben</li>
+						</ul>
+					</section>
+				</section>
+
+
+				<!-- what's next -->
+				<section id="next">
+					<section>
+						<h1>Merre tovább?</h1>
+					</section>
+
+					<section id="new_methods">
+						<h2>Módszertan</h2>
+						<ul>
+							<li class='fragment'>Deep Learning</li>
+							<li class='fragment'>Collaborative filtering</li>
+							<li class='fragment'>Careerpath</li>
+						</ul>
+
+					</section>
+
+					<section id="new_features">
+						<h2>További feature-ök</h2>
+						<ul>
+							<li class='fragment'>Szenioritás mérése</li>
+							<li class='fragment'>Kulcsszó alapú keresés</li>
+							<li class='fragment' style="list-style: none;"><br></li>
+							<li class='fragment'><a>VILÁGURALOM</a></li>
+						</ul>
+					</section>
+				</section>
+
+
+				<!-- Outro -->
+				<section id="outro">
+					<h1>Köszönöm a figyelmet!</h1>
+					<p>
+						<small>Fülöp András / <a href="http://twitter.com/fulibacsi">@fulibacsi</a></small></br>
+						<small><a>lensa.com</a> | <a>gitential.com</a></small>
+					</p>
+				</section>
+
+
+				<!-- Appendix -->
+				<section id="appendix">
+					<h1>QuickNAV</h1>
+					<table>
+						<tr>
+							<th><a href="#lensa_intro">lensa</a></th>
+							<td><small><a href="#lensacom">site</a></small></td>
+							<td><small><a href="#gitential">gitential</a></small></td>
+							<td><small><a href="#lensa_details">details</a></small></td>
+							<td><small><a href="#lensa_stat">stat</a></small></td>
+						</tr>
+						<tr>
+							<th><a href="#match_purpose">match</a></th>
+							<td><small><a href="#match_purpose">feladat</a></small></td>
+							<td><small><a href="#match_preprocess">prepocess</a></small></td>
+							<td><small><a href="#match_rec">ajánlás</a></small></td>
+						</tr>
+						<tr>
+							<th><a href="#match_dev_story">kihívások</a></th>
+							<td><small><a href="#methods">módszertan</a></small></td>
+							<td><small><a href="#noisy_data">adatok</a></small></td>
+							<td><small><a href="#speed">sebesség</a></small></td>
+							<td><small><a href="#tech_problems">tech</a></small></td>
+							<td><small><a href="#to_solve">todo</a></small></td>
+						</tr>
+						<tr>
+							<td><a href="#next">next</a></td>
+							<td><small><a href="#new_methods">módszertan</a></small></td>
+							<td><small><a href="#new_features">feature-ök</a></small></td>
+						</tr>
+					</table>
+				</section>
+
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				dependencies: []
+			});
+		</script>
+	</body>
+</html>
