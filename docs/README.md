@@ -129,7 +129,7 @@ Running the slides requires the following python packages:
 
 ---
 
-## Guest presentation @ UNIDEB.IK IT department
+## Guest presentation @ UNIDEB.IK IT department (in hungarian)
 
 The raw slides can be found [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/tutorial2production/tutorial2production.html). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
 
