@@ -110,3 +110,29 @@ Running the slides requires the following python packages:
 - matplotlib
 - seaborn
 - https://github.com/damianavila/RISE
+
+---
+
+## EÖTVÖS-EST presentation slideshow (in hungarian)
+
+You can view the raw (github rendered) slides [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/computable_individualities/computable_individualities.ipynb). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
+
+Running the slides requires the following python packages:
+
+- jupyter notebook
+- numpy
+- pandas
+- scikit-learn
+- matplotlib
+- seaborn
+- https://github.com/damianavila/RISE
+
+---
+
+## Guest presentation @ UNIDEB.IK IT department
+
+The raw slides can be found [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/tutorial2production/tutorial2production.html). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
+
+Rendering the slides requires:
+
+- [reveal.js](https://github.com/hakimel/reveal.js)
