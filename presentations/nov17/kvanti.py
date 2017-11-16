@@ -1,3 +1,4 @@
+# encoding: utf-8
 """Functions to hide complexity from the audience."""
 import os
 import random
@@ -23,7 +24,7 @@ def list_books(path):
     return [dirpath + doc for doc in docs]
 
 
-def mean_length(iterable):
+def mean(iterable):
     if isinstance(iterable, list):
         return np.mean([len(book) for book in iterable])
     return iterable.mean(axis=0)[::100]
