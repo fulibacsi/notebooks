@@ -26,6 +26,8 @@
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_08.ipynb)
 - 9th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_09.ipynb)
+- 10th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_10.ipynb)
 - Last year's material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
 
 ---
