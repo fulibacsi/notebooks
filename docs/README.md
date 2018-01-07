@@ -4,7 +4,31 @@
 
 ### Resources
 
-- The course material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
+- 1st week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_01.ipynb)
+    - [required files](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/resources/resources.zip)
+- 2nd week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_02.ipynb)
+- 3rd week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_03.ipynb)
+    - [required data files](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/resources/data.zip)
+- 4th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_04.ipynb)
+    - [assignment](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_04_hw.ipynb)
+- 5th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_05.ipynb)
+    - [updated helpers.py](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/helpers.py)
+- 6th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_06.ipynb)
+- 7th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_07.ipynb)
+- 8th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_08.ipynb)
+- 9th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_09.ipynb)
+- 10th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/szisz/python101/python101_10.ipynb)
+- Last year's material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/szisz/python101/resources/python101.zip)ped archive.
 
 ---
 
@@ -90,3 +114,29 @@ Running the slides requires the following python packages:
 - matplotlib
 - seaborn
 - https://github.com/damianavila/RISE
+
+---
+
+## EÖTVÖS-EST presentation slideshow (in hungarian)
+
+You can view the raw (github rendered) slides [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/computable_individualities/computable_individualities.ipynb). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
+
+Running the slides requires the following python packages:
+
+- jupyter notebook
+- numpy
+- pandas
+- scikit-learn
+- matplotlib
+- seaborn
+- https://github.com/damianavila/RISE
+
+---
+
+## Guest presentation @ UNIDEB.IK IT department (in hungarian)
+
+The raw slides can be found [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/tutorial2production/tutorial2production.html). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
+
+Rendering the slides requires:
+
+- [reveal.js](https://github.com/hakimel/reveal.js)

@@ -140,6 +140,11 @@ sftp-config.json
 # Temporary data
 .ipynb_checkpoints/
 
-# repo specific ignores
+#####=== repo specific ignores ===#####
 # nyata docs
 presentations/nyata2017/docs/*.txt
+
+# reveal.js files
+presentations/tutorial2production/css/
+presentations/tutorial2production/js/
+presentations/tutorial2production/lib/
