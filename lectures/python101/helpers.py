@@ -300,7 +300,7 @@ class FakeMapReduce(object):
 
 
 def slowadd(x, y):
-    print 'executing {} + {}'.format(x, y)
+    print('executing {} + {}'.format(x, y))
     time.sleep(random.random())
     return x + y
 
