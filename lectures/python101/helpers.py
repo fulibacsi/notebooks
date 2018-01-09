@@ -13,6 +13,8 @@ import time
 import re
 import IPython.display
 
+from functools import reduce
+
 #  ============ globals ============
 OR = operator.or_
 AND = operator.and_
