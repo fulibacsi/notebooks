@@ -1,15 +1,9 @@
 # install with conda
+graphviz
 requests
 beautifulsoup4
-Pillow
-qrcode
-graphviz
-moviepy
-tqdm
-nltk
+selenium
 pandas
 pandas-profiling
-the-silver-searcher
 # install with pip
 lolviz
-youtube-dl
