@@ -242,7 +242,7 @@ def encrypt(text, strength=4, level=1):
 
     """
     abc = string.ascii_letters
-    distortion = xrange(strength - 1)
+    distortion = range(strength - 1)
     if level == 1:
         encrypted = [
             char +
