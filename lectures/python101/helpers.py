@@ -38,7 +38,7 @@ def fix_graphviz_path():
     graphviz_path = os.path.abspath(graphviz_path)
 
     if graphviz_path not in os.environ['PATH']:
-        os.environ['PATH'] += graphviz_path + ';'
+        os.environ['PATH'] += ';' + graphviz_path + ';'
 
     return 'Fix applied.'
 
@@ -242,7 +242,7 @@ def encrypt(text, strength=4, level=1):
 
     """
     abc = string.ascii_letters
-    distortion = xrange(strength - 1)
+    distortion = range(strength - 1)
     if level == 1:
         encrypted = [
             char +
