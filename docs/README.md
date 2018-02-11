@@ -1,4 +1,4 @@
-# SZISZ COURSES
+# LECTURE NOTEBOOKS
 
 ## Python 101
 
