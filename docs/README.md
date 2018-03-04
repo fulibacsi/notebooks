@@ -14,7 +14,6 @@
     - [required data files](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/resources/data.zip)
 - 4th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_04.ipynb)
-    - [assignment](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_04_hw.ipynb)
 - 5th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_05.ipynb)
     - [updated helpers.py](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/helpers.py)
