@@ -130,8 +130,8 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     Returns:
         Log text.
     """
-    seasons = xrange(1, _seasons+1)
-    episodes = xrange(1, _episodes+1)
+    seasons = range(1, _seasons+1)
+    episodes = range(1, _episodes+1)
     movie_ext = 'avi'
     subtitle_ext = 'srt'
     subdir = './' + _name
