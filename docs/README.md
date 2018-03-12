@@ -16,6 +16,7 @@
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_04.ipynb)
 - 5th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_05.ipynb)
+    - [hungarian exercises](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_hungarian_exercises.ipynb)
 - 6th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_06.ipynb)
 - 7th week
