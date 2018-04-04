@@ -1,0 +1,10 @@
+requests
+selenium
+beautifulsoup4
+nltk
+scikit-learn
+spacy
+gensim
+tqdm
+jupyter
+notebook
