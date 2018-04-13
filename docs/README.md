@@ -82,6 +82,13 @@
 
 ---
 
+## Webscraping and Text mining tutorial
+
+- [tutorial directory on github](https://github.com/fulibacsi/notebooks/tree/master/lectures/webscraping_and_nlp_tutorial)
+- [compressed project](https://github.com/fulibacsi/notebooks/raw/master/lectures/webscraping_and_nlp_tutorial/resources/webscraping_and_nlp_tutorial.zip)
+
+---
+
 # PRESENTATIONS
 
 ## SZISZ30 conference slideshow (in hungarian)
