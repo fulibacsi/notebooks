@@ -148,3 +148,6 @@ presentations/nyata2017/docs/*.txt
 presentations/tutorial2production/css/
 presentations/tutorial2production/js/
 presentations/tutorial2production/lib/
+
+# google news vector
+lectures/webscraping_and_nlp_tutorial/data/GoogleNews-vectors-negative300.bin.gz
