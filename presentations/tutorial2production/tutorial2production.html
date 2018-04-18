@@ -17,10 +17,12 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
+
+
 				<!-- Intro -->
 				<section id="intro">
 					<h2>Tutorial &rarr; production</h2>
-					<h4>Pillanatképek egy ajánlórendszer fejlesztéséből</h3>
+					<h4>Pillanatképek egy ajánlórendszer fejlesztéséből</h4>
 					<p>
 						<small>Fülöp András / <a href="http://twitter.com/fulibacsi">@fulibacsi</a></small>
 					</p>
@@ -33,12 +35,12 @@
 						<h1>Lensa</h1>
 					</section>
 
-					<section id="gitential">
-						<h2>Mit csinálunk?</h2>
-						<img src="resources/gitential.png">
+					<section id="lensateam">
+						<h2>Kik vagyunk?</h2>
+						<img src="resources/teamlensa.jpg" style="width: 70%">
 					</section>
 
-					<section id="lenscom">
+					<section id="lensacom">
 						<h2>Mit csinálunk?</h2>
 						<img src="resources/lensa.png">
 					</section>
@@ -50,7 +52,7 @@
 								<a>Felhasználóink</a> felé:
 								<ul>
 									<li>USA álláshirdetéseiből</li>
-									<li>Előfizetőknek generált levél ajánlatokkal</li>
+									<li>Feliratkozott felhasználóknak generált levél ajánlatokkal</li>
 									<li>Az oldal látogatóinak azonnali ajánlás</li>
 								</ul>
 							</li>
@@ -68,25 +70,25 @@
 					<section id="lensa_stat">
 						<h2>Egy kis Lensa statisztika</h2>
 						<ul>
-							<li class='fragment'><a>100k</a> felhasználó / nap</li>
-							<li class='fragment'>átlagosan <a>1 200</a> ajánlás / perc</li>
-							<li class='fragment'><a>4M</a> levél / nap</li>
-							<li class='fragment'>25 partner, 4 óránként új feeddel</li>
-							<li class='fragment'>átlagosan <a>900k</a> job / jobfeed</li>
-							<li class='fragment'>4 óránként ~ <a>22.5M</a> új job</li>
+							<li class='fragment'>~ <a>200k</a> felhasználó / nap</li>
+							<li class='fragment'>átlagosan <a>4 000</a> ajánlás / perc</li>
+							<li class='fragment'>~ <a>4M</a> levél / nap</li>
+							<li class='fragment'>35 partner, ~ 4 óránként új feeddel</li>
+							<li class='fragment'>legnagyobb feed ~ <a>10M</a> jobot tartalmaz</li>
+							<li class='fragment'>4 óránként ~ <a>35M</a> új job</li>
 						</ul>
 					</section>
 				</section>
 
 
 				<!-- Match intro -->
-				<section id="match_intro">
+				<section id="match_purpose">
 					<section>
-						<h1>Match<h1>
+						<h1>Feladat</h1>
 					</section>
 
-					<section id="match_purpose">
-						<h2>Feladat</h2>
+					<section id="match_purpose_overview">
+						<h2>Áttekintés</h2>
 						<ul>
 							<li>Feed-ek ellenőrzése, fogadása</li>
 							<li>Feed-ek <a>előfeldolgozás</a>a</li>
@@ -114,7 +116,7 @@
 						</ul>
 					</section>
 
-					<section id="match_rec">
+					<section id="match_recommendation">
 						<h2>Ajánlás</h2>
 						<ul>
 							<li>
@@ -141,16 +143,102 @@
 				<!-- Match dev story -->
 				<section id="match_dev_story">
 					<section>
-						<h1>Kihívások<h1>
+						<h1>Fejlesztés</h1>
 					</section>
 
-					<section id="methods">
+					<section id="match_methodology">
 						<h2>Módszertan</h2>
 						<ul>
-							<li class='fragment'>Miért nem hagyományos ajánlórendszer?</li>
 							<li class='fragment'>Miért nem szabadszavas kereső?</li>
+							<li class='fragment'>Miért nem hagyományos ajánlórendszer?</li>
 							<!-- Miért egyéni? / Mi lett a megoldás? / Miért nem ranking? -->
  						</ul>
+					</section>
+
+					<section id="match_init">
+						<h2>Match kezdetben</h2>
+						<ul>
+							<li class='fragment'>
+								<a>Előfeldolgozás</a>:
+								<ul>
+									<li>standard sklearn pipeline</li>
+									<li>egy-két saját/egyedi transformer</li>
+								</ul>
+							</li>
+							<li class='fragment'>
+								<a>Hasonlóságszámítás</a>:
+								<ul>
+									<li>standard dokumentum hasonlóságmetrika</li>
+								</ul>
+							</li>
+							<li class='fragment'>
+								<a>Felhasznált adat</a>:
+								<ul>
+									<li>vektorizált állások</li>
+								</ul>
+							</li>
+ 						</ul>
+					</section>
+
+					<section id="match_now">
+						<h2>Match ma</h2>
+						<ul>
+							<li class='fragment'>
+								<a>Előfeldolgozás</a>:
+								<ul>
+									<li>csak saját/egyedi transformer (sklearn interface)</li>
+								</ul>
+							</li>
+							<li class='fragment'>
+								<a>Hasonlóságszámítás</a>:
+								<ul>
+									<li>tartalom alapú hasonlóságmetrika</li>
+									<li>metrika finomítása kattintási adatokkal</li>
+								</ul>
+							</li>
+							<li class='fragment'>
+								<a>Felhasznált adat</a>:
+								<ul>
+									<li>vektorizált állások</li>
+									<li>archivált dokumentumok</li>
+									<li>clicklog</li>
+								</ul>
+							</li>
+ 						</ul>
+					</section>
+
+					<section id="match_next">
+						<h2>Match holnap</h2>
+						<ul>
+							<li class='fragment'>
+								<a>Előfeldolgozás</a>:
+								<ul>
+									<li>csak saját/egyedi transformer</li>
+								</ul>
+							</li>
+							<li class='fragment'>
+								<a>Hasonlóságszámítás</a>:
+								<ul>
+									<li>word embedding</li>
+									<li>siamese deep learning hálózat</li>
+								</ul>
+							</li>
+							<li class='fragment'>
+								<a>Felhasznált adat</a>:
+								<ul>
+									<li>vektorizált állások</li>
+									<li>clicklog</li>
+								</ul>
+							</li>
+ 						</ul>
+					</section>
+				</section>
+
+
+				<!-- Dev challanges -->
+				<section id="challanges">
+					<section>
+						<h1>Kihívások</h1>
 					</section>
 
 					<section id="noisy_data">
@@ -228,36 +316,28 @@
 					<section id="to_solve">
 						<h2>Megoldásra vár</h2>
 						<ul>
+							<li class='fragment'>Átállás az új match-re</li>
+							<li class='fragment'>Új partnerek automatikus felvétele</li>
+							<li class='fragment'>Partnerek állásainak kezelése ajánlási időben</li>
 							<li class='fragment'>Közvetett és késleltetett visszajelzés a minőségről</li>
-							<li class='fragment'>A/B teszt hiánya</li>
-							<li class='fragment'>Csapatok közti kommunikáció</li>
-							<li class='fragment'>Egy állás több feed-ben, különböző értékben</li>
 						</ul>
 					</section>
 				</section>
 
 
-				<!-- what's next -->
-				<section id="next">
+				<!-- What's next -->
+				<section id="whats_next">
 					<section>
 						<h1>Merre tovább?</h1>
 					</section>
 
-					<section id="new_methods">
-						<h2>Módszertan</h2>
-						<ul>
-							<li class='fragment'>Deep Learning</li>
-							<li class='fragment'>Collaborative filtering</li>
-							<li class='fragment'>Careerpath</li>
-						</ul>
-
-					</section>
-
 					<section id="new_features">
-						<h2>További feature-ök</h2>
+						<h2>Tervezett feature-ök</h2>
 						<ul>
-							<li class='fragment'>Szenioritás mérése</li>
+							<li class='fragment'>Forgalom előrejelzés</li>
 							<li class='fragment'>Kulcsszó alapú keresés</li>
+							<li class='fragment'>Találatok javítása cégalapon</li>
+							<li class='fragment'>Teljesen testreszabott ajánlás CV alapján</li>
 							<li class='fragment' style="list-style: none;"><br></li>
 							<li class='fragment'><a>VILÁGURALOM</a></li>
 						</ul>
@@ -282,28 +362,33 @@
 					<table>
 						<tr>
 							<th><a href="#lensa_intro">lensa</a></th>
+							<td><small><a href="#lensateam">team</a></small></td>
 							<td><small><a href="#lensacom">site</a></small></td>
-							<td><small><a href="#gitential">gitential</a></small></td>
-							<td><small><a href="#lensa_details">details</a></small></td>
+							<td><small><a href="#lensa_details">részletek</a></small></td>
 							<td><small><a href="#lensa_stat">stat</a></small></td>
 						</tr>
 						<tr>
-							<th><a href="#match_purpose">match</a></th>
-							<td><small><a href="#match_purpose">feladat</a></small></td>
+							<th><a href="#match_purpose">feladat</a></th>
+							<td><small><a href="#match_purpose_overview">áttekintés</a></small></td>
 							<td><small><a href="#match_preprocess">prepocess</a></small></td>
-							<td><small><a href="#match_rec">ajánlás</a></small></td>
+							<td><small><a href="#match_recommendation">ajánlás</a></small></td>
 						</tr>
 						<tr>
-							<th><a href="#match_dev_story">kihívások</a></th>
-							<td><small><a href="#methods">módszertan</a></small></td>
+							<th><a href="#match_dev_story">match</a></th>
+							<td><small><a href="#match_methodology">módszertan</a></small></td>
+							<td><small><a href="#match_init">kezdetben</a></small></td>
+							<td><small><a href="#match_now">ma</a></small></td>
+							<td><small><a href="#match_next">holnap</a></small></td>
+						</tr>
+						<tr>
+							<th><a href="#challanges">kihívások</a></th>
 							<td><small><a href="#noisy_data">adatok</a></small></td>
 							<td><small><a href="#speed">sebesség</a></small></td>
 							<td><small><a href="#tech_problems">tech</a></small></td>
 							<td><small><a href="#to_solve">todo</a></small></td>
 						</tr>
 						<tr>
-							<td><a href="#next">next</a></td>
-							<td><small><a href="#new_methods">módszertan</a></small></td>
+							<td><a href="#whats_next">next</a></td>
 							<td><small><a href="#new_features">feature-ök</a></small></td>
 						</tr>
 					</table>
