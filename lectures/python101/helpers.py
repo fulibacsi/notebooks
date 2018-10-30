@@ -3,21 +3,22 @@
 
 # ============ imports ============
 import os
+import platform
+import re
+import time
 import string
 import operator
 import collections
+import zipfile
 import csv
 import codecs
 import random
-import time
-import re
+
+import tqdm
+import requests
 import IPython.display
 
 from functools import reduce
-
-#  ============ globals ============
-OR = operator.or_
-AND = operator.and_
 
 # ============ functions ============
 
@@ -391,3 +392,48 @@ class DemoBall(object):
             nexty = self.y + self.vy
         self.x = nextx
         self.y = nexty
+        
+# ============ selenium installation helper functions ============
+
+def download(url, path):
+    print(f'Downloading from {url}.')
+    response = requests.get(url, stream=True)
+    
+    with open(path, "wb") as handle:
+        for data in tqdm.tqdm(response.iter_content(chunk_size=65536)):
+            handle.write(data)
+    
+    assert os.path.exists(path)
+    print(f'Downloaded data saved to {path}.')
+
+
+def get_download_dir():
+    download_dir = os.path.expanduser('~')
+    download_dir = os.path.join(download_dir, 'Downloads')
+    assert os.path.exists(download_dir)
+    
+    return download_dir
+        
+
+def chromedriver_download():
+    os_map = {
+        'Windows': 'win32',
+        'Darwin': 'mac64',
+        'Linux': 'linux64'
+    }
+    current_os = os_map[platform.system()]
+
+    chromium_uri = ('https://chromedriver.storage.googleapis.com'
+                    '/70.0.3538.67/chromedriver_{}.zip'.format(current_os))
+    chromium_path = os.path.join(get_download_dir(),
+                                 'chromedriver_{}.zip'.format(current_os))
+    zippath = os.path.join(get_download_dir(), 'chromedriver')
+    if current_os == 'win32':
+        zippath += '.exe'
+    
+    if not os.path.exists(zippath):
+        download(url=chromium_uri, path=chromium_path)
+        with zipfile.ZipFile(chromium_path, "r") as z:
+            z.extractall(get_download_dir())
+
+    assert os.path.exists(zippath)
