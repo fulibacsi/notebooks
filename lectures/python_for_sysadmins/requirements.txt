@@ -1,0 +1,9 @@
+# install with conda
+graphviz
+requests
+beautifulsoup4
+selenium
+pandas
+pandas-profiling
+# install with pip
+lolviz
