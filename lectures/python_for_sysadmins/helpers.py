@@ -35,7 +35,7 @@ def export_to_csv(filename, data):
 
 
 # fake download function
-def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
+def download_subtitle(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     """Download the specified series into a directory.
     One should wear sunglasses to avoid injuries caused by this awesome function!
 
