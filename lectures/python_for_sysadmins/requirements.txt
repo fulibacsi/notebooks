@@ -1,9 +1,6 @@
-# install with conda
-graphviz
-requests
-beautifulsoup4
-selenium
+lxml
 pandas
-pandas-profiling
-# install with pip
-lolviz
+sqlalchemy
+requests
+Flask
+tqdm

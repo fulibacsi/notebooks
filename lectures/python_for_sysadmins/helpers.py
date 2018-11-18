@@ -17,25 +17,8 @@ import requests
 # ============ functions ============
 
 
-# CSV writer
-def export_to_csv(filename, data):
-    """Writes the data lines into a csv file.
-    Arguments:
-        filename: the file to write the data to.
-        data: the data to write.
-    Returns:
-        -
-    """
-    if '.csv' not in filename:
-        filename += '.csv'
-    with open(filename, 'w') as csvfile:
-        CSV = csv.writer(csvfile, dialect='excel')
-        for row in data:
-            CSV.writerow(row)
-
-
-# fake download function
-def download_subtitle(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
+#fake download function
+def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     """Download the specified series into a directory.
     One should wear sunglasses to avoid injuries caused by this awesome function!
 
@@ -175,53 +158,7 @@ def encrypt(text, strength=4, level=1):
 
     return ''.join(encrypted)
 
-        
-# ============ selenium installation helper functions ============
-
-def download(url, path):
-    print(f'Downloading from {url}.')
-    response = requests.get(url, stream=True)
-    
-    with open(path, "wb") as handle:
-        for data in tqdm.tqdm(response.iter_content(chunk_size=65536)):
-            handle.write(data)
-    
-    assert os.path.exists(path)
-    print(f'Downloaded data saved to {path}.')
-
-
-def get_download_dir():
-    download_dir = os.path.expanduser('~')
-    download_dir = os.path.join(download_dir, 'Downloads')
-    assert os.path.exists(download_dir)
-    
-    return download_dir
-        
-
-def chromedriver_download():
-    os_map = {
-        'Windows': 'win32',
-        'Darwin': 'mac64',
-        'Linux': 'linux64'
-    }
-    current_os = os_map[platform.system()]
-
-    chromium_uri = ('https://chromedriver.storage.googleapis.com'
-                    '/70.0.3538.67/chromedriver_{}.zip'.format(current_os))
-    chromium_path = os.path.join(get_download_dir(),
-                                 'chromedriver_{}.zip'.format(current_os))
-    zippath = os.path.join(get_download_dir(), 'chromedriver')
-    if current_os == 'win32':
-        zippath += '.exe'
-    
-    if not os.path.exists(zippath):
-        download(url=chromium_uri, path=chromium_path)
-        with zipfile.ZipFile(chromium_path, "r") as z:
-            z.extractall(get_download_dir())
-
-    assert os.path.exists(zippath)
-
-    
+ 
 # BALL WIDGET
 from ipywidgets import widgets
 from time import sleep
