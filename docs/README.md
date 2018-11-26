@@ -95,6 +95,12 @@
 
 ---
 
+## PTN-115
+
+- [resources](https://github.com/fulibacsi/notebooks/raw/master/lectures/python_for_sysadmins/resources/PTN115.zip)
+
+---
+
 # PRESENTATIONS
 
 ## Startup Safary slides (in hungarian)
