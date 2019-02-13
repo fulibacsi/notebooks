@@ -54,7 +54,7 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     try:
         for item in possible_items:
             if _mismatch:
-                path = subdir + '/' + filename.format(
+                path = filename.format(
                     filename=_name,
                     season=str(item['season']).zfill(2),
                     episode=str(item['episode']).zfill(2),
@@ -66,7 +66,8 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
                 if random.randint(0,1):
                     path = path.lower()
                 elif random.randint(0,1):
-                    path = path.upper()
+                    path = path.upper() 
+                path = subdir +'/' + path
             else:
                 path = subdir + '/' + filename.format(
                     filename=_name,
@@ -83,21 +84,20 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
 
 
 # rename erroneous subtitle
-def rename_subtitle(original, new, target_dir):
+def rename_subtitle(original, new, target_dir='.'):
     """Renames the specified file to a new name.
     Arguments:
         original: original filename
         new: new filename
+        target_dir: subdirectory
     Returns:
         -
     """
     if len(target_dir):
-        if not target_dir[0] == '/':
-            target_dir = '/' + target_dir
         if not target_dir[-1] == '/':
             target_dir = target_dir + '/'
-    if original in list_files(target_dir):
-        os.rename('.' + target_dir + original, '.' + target_dir + new)
+    if original in os.listdir(target_dir):
+        os.rename(target_dir + original, target_dir + new)
 
 
 def find_episode_number(filename):
