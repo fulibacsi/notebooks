@@ -31,6 +31,8 @@
     - [extra notebook about scraping](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_09_scraping_vote_results.ipynb)
 - 10th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_10.ipynb)
+- 11th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_11.ipynb)
 - Last year's material with the required data files is available to download as a [zip](https://github.com/fulibacsi/notebooks/raw/master/lectures/python101/resources/python101.zip)ped archive.
 
 ---
@@ -76,6 +78,7 @@
 - 5th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_5.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/data/SMSSpamCollection)
+    - [missing pic](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/pics/neuron.png)
 - 6th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_6.ipynb)
 - 7th week
@@ -90,6 +93,12 @@
 
 - [tutorial directory on github](https://github.com/fulibacsi/notebooks/tree/master/lectures/webscraping_and_nlp_tutorial)
 - [compressed project](https://github.com/fulibacsi/notebooks/raw/master/lectures/webscraping_and_nlp_tutorial/resources/webscraping_and_nlp_tutorial.zip)
+
+---
+
+## PTN-115
+
+- [resources](https://github.com/fulibacsi/notebooks/raw/master/lectures/python_for_sysadmins/resources/PTN115.zip)
 
 ---
 

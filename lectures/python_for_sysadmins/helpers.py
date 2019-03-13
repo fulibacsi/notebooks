@@ -17,24 +17,7 @@ import requests
 # ============ functions ============
 
 
-# CSV writer
-def export_to_csv(filename, data):
-    """Writes the data lines into a csv file.
-    Arguments:
-        filename: the file to write the data to.
-        data: the data to write.
-    Returns:
-        -
-    """
-    if '.csv' not in filename:
-        filename += '.csv'
-    with open(filename, 'w') as csvfile:
-        CSV = csv.writer(csvfile, dialect='excel')
-        for row in data:
-            CSV.writerow(row)
-
-
-# fake download function
+#fake download function
 def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     """Download the specified series into a directory.
     One should wear sunglasses to avoid injuries caused by this awesome function!
@@ -71,7 +54,7 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
     try:
         for item in possible_items:
             if _mismatch:
-                path = subdir + '/' + filename.format(
+                path = filename.format(
                     filename=_name,
                     season=str(item['season']).zfill(2),
                     episode=str(item['episode']).zfill(2),
@@ -83,7 +66,8 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
                 if random.randint(0,1):
                     path = path.lower()
                 elif random.randint(0,1):
-                    path = path.upper()
+                    path = path.upper() 
+                path = subdir +'/' + path
             else:
                 path = subdir + '/' + filename.format(
                     filename=_name,
@@ -100,21 +84,20 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
 
 
 # rename erroneous subtitle
-def rename_subtitle(original, new, target_dir):
+def rename_subtitle(original, new, target_dir='.'):
     """Renames the specified file to a new name.
     Arguments:
         original: original filename
         new: new filename
+        target_dir: subdirectory
     Returns:
         -
     """
     if len(target_dir):
-        if not target_dir[0] == '/':
-            target_dir = '/' + target_dir
         if not target_dir[-1] == '/':
             target_dir = target_dir + '/'
-    if original in list_files(target_dir):
-        os.rename('.' + target_dir + original, '.' + target_dir + new)
+    if original in os.listdir(target_dir):
+        os.rename(target_dir + original, target_dir + new)
 
 
 def find_episode_number(filename):
@@ -175,53 +158,7 @@ def encrypt(text, strength=4, level=1):
 
     return ''.join(encrypted)
 
-        
-# ============ selenium installation helper functions ============
-
-def download(url, path):
-    print(f'Downloading from {url}.')
-    response = requests.get(url, stream=True)
-    
-    with open(path, "wb") as handle:
-        for data in tqdm.tqdm(response.iter_content(chunk_size=65536)):
-            handle.write(data)
-    
-    assert os.path.exists(path)
-    print(f'Downloaded data saved to {path}.')
-
-
-def get_download_dir():
-    download_dir = os.path.expanduser('~')
-    download_dir = os.path.join(download_dir, 'Downloads')
-    assert os.path.exists(download_dir)
-    
-    return download_dir
-        
-
-def chromedriver_download():
-    os_map = {
-        'Windows': 'win32',
-        'Darwin': 'mac64',
-        'Linux': 'linux64'
-    }
-    current_os = os_map[platform.system()]
-
-    chromium_uri = ('https://chromedriver.storage.googleapis.com'
-                    '/70.0.3538.67/chromedriver_{}.zip'.format(current_os))
-    chromium_path = os.path.join(get_download_dir(),
-                                 'chromedriver_{}.zip'.format(current_os))
-    zippath = os.path.join(get_download_dir(), 'chromedriver')
-    if current_os == 'win32':
-        zippath += '.exe'
-    
-    if not os.path.exists(zippath):
-        download(url=chromium_uri, path=chromium_path)
-        with zipfile.ZipFile(chromium_path, "r") as z:
-            z.extractall(get_download_dir())
-
-    assert os.path.exists(zippath)
-
-    
+ 
 # BALL WIDGET
 from ipywidgets import widgets
 from time import sleep
