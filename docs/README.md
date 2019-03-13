@@ -78,6 +78,7 @@
 - 5th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_5.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/data/SMSSpamCollection)
+    - [missing pic](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/pics/neuron.png)
 - 6th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_6.ipynb)
 - 7th week
