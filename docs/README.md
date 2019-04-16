@@ -56,12 +56,13 @@
     - Build a hand-written digit recognizer from this [digits](http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html) dataset.
 7. One does not simply win a race
     - Register on [kaggle.com](https://www.kaggle.com/?login=true) and participate the [Job Salary prediction](https://www.kaggle.com/c/job-salary-prediction/data) competition.
-8. The completionist
-    - Complete the [8th notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_8.ipynb).
+8. Netflix, here I come!
+    - Create a movie ranking model from the [movielens](https://grouplens.org/datasets/movielens/latest/) database.
 
 ### Resources
 
 - [Cheatsheet](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/Cheatsheet.ipynb)
+- [Pictures](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/pics/pics.zip)
 - 0th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_0.ipynb)
     - [dataset](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/data/titanic.csv)
@@ -85,6 +86,8 @@
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_7.ipynb)
 - 8th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_8.ipynb)
+- 9th week
+    - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/ds101/DS101_9.ipynb)
     - [dataset](https://www.kaggle.com/c/job-salary-prediction/data)
 
 ---
