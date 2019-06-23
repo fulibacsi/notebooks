@@ -99,9 +99,9 @@
 
 ---
 
-## PTN-115
+## PTN-105
 
-- [resources](https://github.com/fulibacsi/notebooks/raw/master/lectures/python_for_sysadmins/resources/PTN115.zip)
+- [resources](https://github.com/fulibacsi/notebooks/raw/master/lectures/python_for_sysadmins/resources/PTN105.zip)
 
 ---
 
