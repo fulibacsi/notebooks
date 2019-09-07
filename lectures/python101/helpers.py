@@ -119,9 +119,13 @@ def list_files(target_dir=''):
 
 
 # fake download function
-def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
+def download_series(_name='super_series',
+                    _seasons=7,
+                    _episodes=24,
+                    _mismatch=False):
     """Download the specified series into a directory.
-    One should wear sunglasses to avoid injuries caused by this awesome function!
+    One should wear sunglasses to avoid injuries caused by this awesome
+    function!
 
     Arguments:
         _name: name of the series. default: 'super_series'
@@ -143,7 +147,13 @@ def download(_name='super_series', _seasons=7, _episodes=24, _mismatch=False):
                       for e in episodes
                       for s in seasons]
     if _mismatch:
-        filename = '{filename}{sep1}S{season}E{episode}{sep2}{obfuscation}.{extension}'
+        filename = ('{filename}
+                    '{sep1}'
+                    'S{season}'
+                    'E{episode}'
+                    '{sep2}'
+                    '{obfuscation}'
+                    '.{extension}')
     else:
         filename = '{filename}.S{season}E{episode}.{extension}'
 
@@ -314,65 +324,65 @@ from time import sleep
 
 
 class BouncyBallSimulator(object):
-    
+
     def __init__(self, ball, emptychar=' '):
         self.ball = ball
-        
+
         self.height = self.ball.max_x
         self.width = self.ball.max_y
-        
+
         self.emptychar = emptychar
-      
+
         self.widget = self.init_widgets()
-        
+
     def init_widgets(self):
         # iter slider
         numiter = widgets.IntSlider(value=50, min=1, step=1)
         # start button
         startbutton = widgets.Button(description='start')
         startbutton.on_click(lambda x: self.play(numiter.value))
-        
+
         # pack iterslider and start button together
         buttonbox = widgets.HBox()
         buttonbox.children = [startbutton, numiter]
-        
+
         # draw area
         self.textarea = widgets.Textarea()
-        
+
         # packed widget
         container = widgets.VBox()
         container.children = [buttonbox, self.textarea]
-        
+
         return container
-        
+
     def show(self):
         return self.widget
-        
+
     def draw(self, i, j):
         field = [[self.emptychar for _ in range(self.width)]
                  for _ in range(self.height)]
         field[i][j] = 'o'
-        
+
         fieldstr = '\n'.join([''.join(char) for char in field])
         self.textarea.value =  fieldstr
-    
+
     def step(self):
         self.ball.step()
         i, j = self.ball.x, self.ball.y
         self.draw(i, j)
-        
+
     def play(self, numiter=50):
         # draw init position
         i, j = self.ball.x, self.ball.y
         self.draw(i, j)
-       
+
         for iteration in range(numiter):
             self.step()
             sleep(.1)
 
-            
+
 class DemoBall(object):
-    
+
     def __init__(self, x, y, vx=1, vy=1, max_x=5, max_y=7):
         self.x = x
         self.y = y
@@ -380,9 +390,9 @@ class DemoBall(object):
         self.vy = vy
         self.max_x = max_x
         self.max_y = max_y
-        
+
     def step(self):
-        nextx = self.x + self.vx 
+        nextx = self.x + self.vx
         nexty = self.y + self.vy
         if nextx >= self.max_x or nextx < 0:
             self.vx *= -1
@@ -392,17 +402,17 @@ class DemoBall(object):
             nexty = self.y + self.vy
         self.x = nextx
         self.y = nexty
-        
+
 # ============ selenium installation helper functions ============
 
 def download(url, path):
     print(f'Downloading from {url}.')
     response = requests.get(url, stream=True)
-    
+
     with open(path, "wb") as handle:
         for data in tqdm.tqdm(response.iter_content(chunk_size=65536)):
             handle.write(data)
-    
+
     assert os.path.exists(path)
     print(f'Downloaded data saved to {path}.')
 
@@ -411,9 +421,9 @@ def get_download_dir():
     download_dir = os.path.expanduser('~')
     download_dir = os.path.join(download_dir, 'Downloads')
     assert os.path.exists(download_dir)
-    
+
     return download_dir
-        
+
 
 def chromedriver_download():
     os_map = {
@@ -430,7 +440,7 @@ def chromedriver_download():
     zippath = os.path.join(get_download_dir(), 'chromedriver')
     if current_os == 'win32':
         zippath += '.exe'
-    
+
     if not os.path.exists(zippath):
         download(url=chromium_uri, path=chromium_path)
         with zipfile.ZipFile(chromium_path, "r") as z:
