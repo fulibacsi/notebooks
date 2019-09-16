@@ -10,6 +10,3 @@ nltk
 pandas
 pandas-profiling
 the-silver-searcher
-# install with pip
-lolviz
-youtube-dl

@@ -23,26 +23,6 @@ from functools import reduce
 # ============ functions ============
 
 
-# Import lolviz lib
-def fix_graphviz_path():
-    """Fixes graphviz path. (windows only!)"""
-    import platform
-    if not platform.system() == 'Windows':
-        return 'No fix necessary.'
-    import os
-    import sys
-    find_at_end = 'lib'
-    anaconda_path = [path for path in sys.path
-                     if path.endswith(find_at_end)][0]
-    graphviz_path = os.path.join(anaconda_path, os.pardir)
-    graphviz_path += '\\Library\\bin\\graphviz\\'
-    graphviz_path = os.path.abspath(graphviz_path)
-
-    if graphviz_path not in os.environ['PATH']:
-        os.environ['PATH'] += ';' + graphviz_path + ';'
-
-    return 'Fix applied.'
-
 # Image print
 def print_image(source, _type='img', width=None, height=None):
     """Display an image. (IPython notebook exclusive!)
@@ -96,6 +76,7 @@ def export_to_csv(filename, data):
     """
     if '.csv' not in filename:
         filename += '.csv'
+
     with open(filename, 'w') as csvfile:
         CSV = csv.writer(csvfile, dialect='excel')
         for row in data:
@@ -113,9 +94,8 @@ def list_files(target_dir=''):
         if not target_dir[0] == '/':
             target_dir = '/' + target_dir
     return [_file
-        for _file in os.listdir('.' + target_dir)
-        if os.path.isfile('.' + target_dir + '/' + _file)
-    ]
+            for _file in os.listdir('.' + target_dir)
+            if os.path.isfile('.' + target_dir + '/' + _file)]
 
 
 # fake download function
@@ -147,7 +127,7 @@ def download_series(_name='super_series',
                       for e in episodes
                       for s in seasons]
     if _mismatch:
-        filename = ('{filename}
+        filename = ('{filename}'
                     '{sep1}'
                     'S{season}'
                     'E{episode}'
