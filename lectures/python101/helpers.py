@@ -383,6 +383,114 @@ class DemoBall(object):
         self.x = nextx
         self.y = nexty
 
+
+# ============== KIVY APP FOR RPS GAME ==============
+
+from kivy.app import App
+
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+
+
+class RPSApp(App):
+    """
+    Requires a Game class with a play method.
+    Game class should:
+    - store the available moves in the hands attribute
+    - have a play method which
+        - stores the ai's move in the ai attribute
+        - returns the result of a play
+    """
+
+    def __init__(self, Game):
+        super().__init__()
+        self.test_game(Game)
+        self.game = Game()
+
+    @staticmethod
+    def test_game(Game):
+        game = Game()
+
+        attribs = dir(game)
+        if 'play' not in attribs:
+            raise ValueError('Provided class does not have `play` method!')
+
+        if 'hands' not in attribs:
+            raise ValueError('Provided class does not have `hands` attribute!')
+
+        hands_length = len(game.hands)
+        result = game.play(game.hands[0])
+        attribs = dir(game)
+        if 'ai' not in attribs:
+            raise ValueError('Provided class does not save ai moves '
+                             'to `ai` attribute!')
+
+        if hands_length == len(game.hands):
+            raise ValueError('Provided class does not update `hands` '
+                             'attribute with the trump hands!')
+
+    def play(self, hand, widget):
+        """Play one round of the game and updates the widget text"""
+        result = self.game.play(hand)
+        widget.text = (f'PLAYER: {hand} | {result} | AI: {self.game.ai}')
+
+    def build(self):
+        """
+        Builds the following grid for playing the game:
+        +-------------------------------+
+        |          result label         |
+        +------------+-----+------------+
+        | hand_1_btn | ... | hand_n_btn |
+        +------------+-----+------------+
+
+        """
+        # result label
+        result_label = Label(text='')
+
+        # buttons
+        button_layout = GridLayout(cols=len(self.game.hands))
+        for hand in self.game.hands:
+            button = Button(text=hand,
+                            on_press=lambda btn: self.play(btn.text,
+                                                           result_label))
+            button_layout.add_widget(button)
+
+        # final grid
+        layout = GridLayout(rows=2)
+        layout.add_widget(result_label)
+        layout.add_widget(button_layout)
+
+        return layout
+
+
+class ExampleRPS:
+
+    trumps = {'r': 'p',
+              'p': 's',
+              's': 'r'}
+
+    def __init__(self):
+        self.hands = ['r', 'p', 's']
+
+    def move(self):
+        return random.choice(self.hands)
+
+    def play(self, hand):
+        self.ai = self.move()
+        self.hands.append(self.trumps[hand])
+
+        print(f'LOG > P:{hand} AI:{self.ai}')
+        if self.ai == hand:
+            return 'draw'
+
+        elif self.trumps[self.ai] == hand:
+            return 'win'
+
+        else:
+            return 'lose'
+
+
 # ============ selenium installation helper functions ============
 
 def download(url, path):
