@@ -25,7 +25,6 @@
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_08.ipynb)
 - 8th week 2nd
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_08_2.ipynb)
-    - [updated helpers.py](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/helpers.py)
 - 9th week
     - [notebook](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_09.ipynb)
     - [extra notebook about scraping](https://raw.githubusercontent.com/fulibacsi/notebooks/master/lectures/python101/python101_09_scraping_vote_results.ipynb)
