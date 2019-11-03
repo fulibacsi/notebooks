@@ -1,0 +1,6 @@
+lxml
+pandas
+sqlalchemy
+requests
+Flask
+tqdm
