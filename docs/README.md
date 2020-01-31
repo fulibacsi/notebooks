@@ -106,6 +106,17 @@
 
 # PRESENTATIONS
 
+## SZISZ Winter camp roundtable talk (in hungarian)
+### AI case study: Lensa Match
+
+The raw slides can be found [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/ai_case_study_match/lensa_match.html). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
+
+Rendering the slides requires:
+
+- [reveal.js](https://github.com/hakimel/reveal.js)
+
+---
+
 ## Startup Safary slides (in hungarian)
 
 The raw slides can be found [here](https://github.com/fulibacsi/notebooks/blob/master/presentations/tutorial2production/tutorial2production.html). However you'll need to clone or download the whole [repository](https://github.com/fulibacsi/notebooks/archive/master.zip) to view the slides in the intended (interactive) way properly.
