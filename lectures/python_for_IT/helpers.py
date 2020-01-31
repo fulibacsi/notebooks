@@ -59,7 +59,7 @@ def download_series(_name='super_series',
     try:
         for item in possible_items:
             if _mismatch:
-                path = subdir + '/' + filename.format(
+                path = filename.format(
                     filename=_name,
                     season=str(item['season']).zfill(2),
                     episode=str(item['episode']).zfill(2),
@@ -72,13 +72,15 @@ def download_series(_name='super_series',
                     path = path.lower()
                 elif random.randint(0,1):
                     path = path.upper()
+
             else:
-                path = subdir + '/' + filename.format(
+                path = filename.format(
                     filename=_name,
                     season=str(item['season']).zfill(2),
                     episode=str(item['episode']).zfill(2),
                     extension=item['extension']
                 )
+            path = subdir + '/' + path
             # file creation
             open(path, 'w').write(path)
     except Exception as e:
