@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import random
+import sqlite3
 from copy import deepcopy
 from collections import Counter
 from itertools import product
@@ -86,7 +87,7 @@ def merge_dicts(*dict_args):
 
 class RPS(object):
     """Rock-Paper-Scissors playing agent.
-    
+
     Different agents are implemented to learn the player's playing pattern.
     Currently the following agents available:
     - null : pure random agent
@@ -194,7 +195,7 @@ class RPS(object):
     def play_one(self, player):
         """Plays one round of RPS game.
 
-        Plays one round, logs the results and execute a learning step. 
+        Plays one round, logs the results and execute a learning step.
 
         Parameters:
         -----------
@@ -253,7 +254,7 @@ class RPS(object):
 
     def random(self):
         """Returns a random hand.
-        
+
         Parameters:
         -----------
         None
@@ -302,7 +303,7 @@ class RPS(object):
         """Transforms historical hand data into a concatenated vector.
 
         Required for the neural agent.
-        
+
         Parameters:
         -----------
         None
@@ -322,7 +323,7 @@ class RPS(object):
 
         In stateful mode the state is a memsize length sequence of the previous
         opponent hands.
-        In neural mode the state is the agent's and the opponent's previous 5 
+        In neural mode the state is the agent's and the opponent's previous 5
         hands.
 
         Parameters:
@@ -335,7 +336,7 @@ class RPS(object):
         Returns:
         --------
         state : list or dict
-            Updated state 
+            Updated state
         """
         if self.mode == 'stateful':
             state = (self.state or '') + player
@@ -353,7 +354,7 @@ class RPS(object):
         In naive mode the opponent's played hand is added to the pool of hands.
         In stateful mode, the pool associated to the current state is extended
         by the opponent's current hand. The new state is also set.
-        In neural mode, vectorize the current state (game history) and then 
+        In neural mode, vectorize the current state (game history) and then
         execute one backpropagation learning step.
 
         Parameters:
@@ -381,10 +382,10 @@ class RPS(object):
 
     def log_game(self, ai, player, result):
         """Add current turn's data to the game log.
-        
+
         Stores the agent's and opponent's selected hands, the outcome, and the
         current transition probabilities where available.
-        
+
         Parameters:
         -----------
         ai : string
@@ -406,11 +407,11 @@ class RPS(object):
 
     def generate_probs(self):
         """Generate probabilities from the agent's pool.
-        
+
         Parameters:
         -----------
         None
-        
+
         Returns:
         --------
         probabilities : dict
@@ -433,13 +434,13 @@ class RPS(object):
 
     def stats(self):
         """Generate game stats from the previously played games.
-        
+
         Stats includes wins, ties, losses and agent's score.
 
         Parameters:
         -----------
         None
-        
+
         Returns:
         --------
         stats : tuple of pandas dataframes
@@ -460,11 +461,11 @@ class RPS(object):
 
     def plot_probs(self):
         """Plot hand probabilities.
-        
+
         Parameters:
         -----------
         None
-        
+
         Returns:
         --------
         fig : matplotlib figure
@@ -488,7 +489,7 @@ class RPS(object):
 
     def plot_win_ratio(self):
         """Plot winning ratio.
-        
+
         Parameters:
         -----------
         None
@@ -679,7 +680,7 @@ class Simulate(object):
 def generate_interface(ai):
     """Generate an interactive interface on a jupyter notebook to play against
     an agent.
-    
+
     Parameters:
     -----------
     ai : RPS object
@@ -735,3 +736,27 @@ def generate_interface(ai):
     container.children = [button_container, result_container]
 
     return container
+
+
+def get_results():
+    db = sqlite3.connect('./data/results.db')
+    results = pd.read_sql('select * from results', con=db)
+    return results
+
+
+def plot_wins(df):
+    return plot_freqs(df.groupby('result').user.count().to_dict())
+
+
+def plot_favourite_hand(df):
+    return plot_freqs(df.groupby('user').result.count().to_dict())
+
+
+def plot_area_by_turn(df, column='user'):
+    fig, ax = plt.subplots()
+    result = (df
+              .groupby(['turn', column], as_index=False).count()
+              .pivot('turn', column, 'ai')
+              .fillna(0.)
+              .plot.area(stacked=True, ax=ax))
+    return fig

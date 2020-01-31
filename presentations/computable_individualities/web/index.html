@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Rock-Paper-Neuron</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="web/src/connect.js"></script>
+        <script src="web/src/rps.js"></script>
+
+        <link rel="stylesheet" href="web/src/style.css">
+    </head>
+    <body>
+        <h1>Rock-Paper-Neuron</h1>
+
+        <div id="results">
+            <table class="bordered">
+                <thead>
+                    <tr class="bordered" align="center" width="40">
+                        <th>CPU</th>
+                        <th>RESULT</th>
+                        <th>USER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr height='40'>
+                        <td id="comp_decision"></td>
+                        <td id="match_result" align='center'></td>
+                        <td id="user_decision"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="user_interface">
+            <img id="rock_button" class="button" src="web/assets/rock.gif" align="left" width="50" height="40"></img>
+            <img id="paper_button" class="button" src="web/assets/paper.gif" align="left" width="50" height="40"></img>
+            <img id="scissors_button" class="button" src="web/assets/scissors.gif" align="left" width="50" height="40"></img>
+        </div>
+
+        <script>
+            var hand_map = {
+                "r": "<img src='web/assets/rock.gif' width='40' height='40'></img>",
+                "p": "<img src='web/assets/paper.gif' width='40' height='40'></img>",
+                "s": "<img src='web/assets/scissors.gif' width='40' height='40'></img>"
+            };
+            var result_map = {
+                '-1': 'LOST',
+                '0': 'TIE',
+                '1': 'WON'
+            }
+
+            var game = new RPS();
+
+            function play(hand) {
+                var result = game.play(hand);
+                result = result_map[result.toString()];
+                var ai = game.game_log[game.game_log.length - 1]['ai'];
+
+                document.getElementById('comp_decision').innerHTML = hand_map[ai];
+                document.getElementById('match_result').innerHTML = result;
+                document.getElementById('user_decision').innerHTML = hand_map[hand];
+
+                send({'ai': ai, 'result': result, 'user': hand, 'turn': game.game_log.length}, '/log');
+            }
+
+            document.getElementById("rock_button").onclick = function() {play('r');};
+            document.getElementById("paper_button").onclick = function() {play('p');};
+            document.getElementById("scissors_button").onclick = function() {play('s');};
+        </script>
+    </body>
+</html>
