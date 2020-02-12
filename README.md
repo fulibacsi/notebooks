@@ -3,7 +3,7 @@
 Jupyter Notebooks for teaching, presentations and other simple purposes. Lecture notebooks are regularly improved.
 
 
-## Lectures
+## Lectures
 
 ### Python101
 
