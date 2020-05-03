@@ -26,3 +26,8 @@ def plot_results_with_hyperplane(X, y, clf, clf_name=None, ax=None):
         ax.set_title(clf_name)
     
     return fig
+
+
+class FILL_IN:
+    
+    train_test_split = np.array([]), np.array([]), np.array([]), np.array([])
