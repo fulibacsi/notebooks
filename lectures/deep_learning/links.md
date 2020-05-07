@@ -4,6 +4,9 @@
 
 - gender prediction based on imdb images: https://journal.missiondata.com/lab-notes-predicting-gender-using-machine-learning-to-predict-personal-demographics-from-images-9401d5ba9641
 - starcraft 2 Alphastar: https://deepmind.com/blog/article/alphastar-mastering-real-time-strategy-game-starcraft-ii
+- face recognition: https://www.pyimagesearch.com/2020/04/13/opencv-age-detection-with-deep-learning/
+- text embedding: https://towardsdatascience.com/understanding-feature-engineering-part-4-deep-learning-methods-for-text-data-96c44370bbfa
+- exoplanet detection: https://blog.yani.io/nasa-fdl-exoplanets/
 
 ## Tutorials
 
@@ -40,10 +43,24 @@
     - https://cs231n.github.io/optimization-2/
     - https://towardsdatascience.com/difference-between-batch-gradient-descent-and-stochastic-gradient-descent-1187f1291aa1
     - https://towardsdatascience.com/adam-latest-trends-in-deep-learning-optimization-6be9a291375c
-    
-### Examples
-- face recognition: https://www.pyimagesearch.com/2020/04/13/opencv-age-detection-with-deep-learning/
-- text embedding: https://towardsdatascience.com/understanding-feature-engineering-part-4-deep-learning-methods-for-text-data-96c44370bbfa
+    - https://ruder.io/optimizing-gradient-descent/
+- convolutional networks:
+    - http://neuralnetworksanddeeplearning.com/chap6.html#introducing_convolutional_networks
+    - https://cs231n.github.io/convolutional-networks/
+    - https://medium.freecodecamp.org/an-intuitive-guide-to-convolutional-neural-networks-260c2de0a050
+    - https://towardsdatascience.com/applied-deep-learning-part-4-convolutional-neural-networks-584bc134c1e2
+    - https://www.analyticsvidhya.com/blog/2018/12/guide-convolutional-neural-network-cnn/
+    - https://www.analyticsvidhya.com/blog/2020/02/mathematics-behind-convolutional-neural-network
+    - https://github.com/ardendertat/Applied-Deep-Learning-with-Keras/blob/master/notebooks/Part%204%20%28GPU%29%20-%20Convolutional%20Neural%20Networks.ipynb
+- reinforcement learning:
+    - https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
+    - https://towardsdatascience.com/reinforcement-learning-w-keras-openai-dqns-1eed3a5338c
+    - 
+
+### Full courses:
+- Deeplearning.ai: https://www.youtube.com/channel/UCcIXc5mJsHVYTZR1maL5l9w
+- Stanford's convolutional networks: https://cs231n.github.io
+- deep learning e-book: http://neuralnetworksanddeeplearning.com
 
 ## Misc
-
+- Neural Network visualization: https://playground.tensorflow.org/
