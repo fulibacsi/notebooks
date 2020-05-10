@@ -52,6 +52,11 @@
     - https://www.analyticsvidhya.com/blog/2018/12/guide-convolutional-neural-network-cnn/
     - https://www.analyticsvidhya.com/blog/2020/02/mathematics-behind-convolutional-neural-network
     - https://github.com/ardendertat/Applied-Deep-Learning-with-Keras/blob/master/notebooks/Part%204%20%28GPU%29%20-%20Convolutional%20Neural%20Networks.ipynb
+    - https://poloclub.github.io/cnn-explainer/
+- recurrent networks:
+    - http://neuralnetworksanddeeplearning.com/chap6.html#other_approaches_to_deep_neural_nets
+    - https://www.cs.toronto.edu/~tingwuwang/rnn_tutorial.pdf
+    - https://www.guru99.com/rnn-tutorial.html
 - reinforcement learning:
     - https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
     - https://towardsdatascience.com/reinforcement-learning-w-keras-openai-dqns-1eed3a5338c
