@@ -53,15 +53,40 @@
     - https://www.analyticsvidhya.com/blog/2020/02/mathematics-behind-convolutional-neural-network
     - https://github.com/ardendertat/Applied-Deep-Learning-with-Keras/blob/master/notebooks/Part%204%20%28GPU%29%20-%20Convolutional%20Neural%20Networks.ipynb
     - https://poloclub.github.io/cnn-explainer/
+- embeddings:
+    - http://www.claudiobellei.com/2018/01/06/backprop-word2vec/
+    - http://www.claudiobellei.com/2018/01/07/backprop-word2vec-python/
+    - https://machinelearningmastery.com/what-are-word-embeddings/
+    - http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/
+    - http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/
+    - http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/
+    - https://stackoverflow.com/questions/51579761/embedding-in-keras
 - recurrent networks:
     - http://neuralnetworksanddeeplearning.com/chap6.html#other_approaches_to_deep_neural_nets
     - https://www.cs.toronto.edu/~tingwuwang/rnn_tutorial.pdf
-    - https://www.guru99.com/rnn-tutorial.html
+    - https://machinelearningmastery.com/timedistributed-layer-for-long-short-term-memory-networks-in-python/
+    - https://www.datatechnotes.com/2018/12/rnn-example-with-keras-simplernn-in.html
+    - https://machinelearningmastery.com/understanding-stateful-lstm-recurrent-neural-networks-python-keras/
+    - http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/
+- lstms:
+    - https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+    - https://medium.com/datadriveninvestor/a-high-level-introduction-to-lstms-34f81bfa262d
+    - https://skymind.ai/wiki/lstm
+    - https://www.dlology.com/blog/how-to-use-return_state-or-return_sequences-in-keras/
+    - https://machinelearningmastery.com/return-sequences-and-return-states-for-lstms-in-keras/
 - reinforcement learning:
+    - http://incompleteideas.net/book/bookdraft2017nov5.pdf
     - https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
     - https://towardsdatascience.com/reinforcement-learning-w-keras-openai-dqns-1eed3a5338c
-    - 
-
+    - https://www.kdnuggets.com/2018/03/5-things-reinforcement-learning.html
+    - https://en.wikipedia.org/wiki/Q-learning
+    - https://blog.tanka.la/2018/10/19/solving-curious-case-of-mountaincar-reward-problem-using-openai-gym-keras-tensorflow-in-python/
+    - https://github.com/pylSER/Deep-Reinforcement-learning-Mountain-Car
+    - https://towardsdatascience.com/reinforcement-learning-w-keras-openai-dqns-1eed3a5338c
+- GANs:
+    - https://medium.com/datadriveninvestor/generative-adversarial-network-gan-using-keras-ce1c05cfdfd3
+    - https://medium.com/analytics-vidhya/implementing-a-gan-in-keras-d6c36bc6ab5f
+    - https://github.com/EvolvedSquid/tutorials/tree/master/gans
 ### Full courses:
 - Deeplearning.ai: https://www.youtube.com/channel/UCcIXc5mJsHVYTZR1maL5l9w
 - Stanford's convolutional networks: https://cs231n.github.io
@@ -69,3 +94,4 @@
 
 ## Misc
 - Neural Network visualization: https://playground.tensorflow.org/
+- Word2Vec Embedding test: http://bionlp-www.utu.fi/wv_demo/

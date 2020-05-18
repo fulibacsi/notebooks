@@ -1,3 +1,3 @@
-call conda create -n ceu_dl python=3.7 jupyter notebook numpy scipy pandas scikit-learn matplotlib seaborn tensorflow keras graphviz pydot h5py future tqdm
+call conda create -n ceu_dl python=3.7 jupyter notebook numpy scipy pandas scikit-learn matplotlib seaborn tensorflow keras graphviz pydot h5py future tqdm gensim
 call conda activate ceu_dl
-call pip install gym
+call pip install gym livelossplot
