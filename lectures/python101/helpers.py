@@ -565,7 +565,7 @@ def get_download_dir():
     return download_dir
 
 
-def chromedriver_download():
+def chromedriver_download(version="86.0.4240.22"):
     os_map = {
         'Windows': 'win32',
         'Darwin': 'mac64',
@@ -573,8 +573,8 @@ def chromedriver_download():
     }
     current_os = os_map[platform.system()]
 
-    chromium_uri = ('https://chromedriver.storage.googleapis.com'
-                    '/70.0.3538.67/chromedriver_{}.zip'.format(current_os))
+    chromium_uri = (f'https://chromedriver.storage.googleapis.com'
+                    f'/{version}/chromedriver_{current_os}.zip')
     chromium_path = os.path.join(get_download_dir(),
                                  'chromedriver_{}.zip'.format(current_os))
     zippath = os.path.join(get_download_dir(), 'chromedriver')
