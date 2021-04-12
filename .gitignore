@@ -152,3 +152,6 @@ presentations/tutorial2production/lib/
 # google news vector
 lectures/webscraping_and_nlp_tutorial/data/GoogleNews-vectors-negative300.bin.gz
 lectures/deep_learning/data/googlenews/GoogleNews-vectors-negative300.bin.gz
+
+# mlflow experiments
+lectures/ds101/mlruns
