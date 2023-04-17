@@ -155,3 +155,6 @@ lectures/deep_learning/data/googlenews/GoogleNews-vectors-negative300.bin.gz
 
 # mlflow experiments
 lectures/ds101/mlruns
+
+# tensorflow run results
+lectures/ds101/tensor
