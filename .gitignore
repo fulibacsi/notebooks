@@ -158,3 +158,6 @@ lectures/ds101/mlruns
 
 # tensorflow run results
 lectures/ds101/tensor
+
+# private notebooks
+lectures/ds101/private
