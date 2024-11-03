@@ -567,23 +567,39 @@ def get_download_dir():
 
 def chromedriver_download(version="86.0.4240.22"):
     os_map = {
-        'Windows': 'win32',
-        'Darwin': 'mac64',
+        'Windows': 'win64',
+        'Darwin-i386': 'mac-x64',
+        'Darwin-arm': 'mac-arm64',
         'Linux': 'linux64'
     }
-    current_os = os_map[platform.system()]
+    current_os = platform.system()
+    if current_os == 'Darwin':
+        if platform.processor() == 'i386':
+            current_os = 'Darwin-i386'
+        elif platform.processor() == 'arm':
+            current_os = 'Darwin-arm'
+    
+    chrome_os_version = os_map[current_os]
 
-    chromium_uri = (f'https://chromedriver.storage.googleapis.com'
-                    f'/{version}/chromedriver_{current_os}.zip')
-    chromium_path = os.path.join(get_download_dir(),
-                                 'chromedriver_{}.zip'.format(current_os))
-    zippath = os.path.join(get_download_dir(), 'chromedriver')
-    if current_os == 'win32':
+    chromium_uri = (f'https://storage.googleapis.com/chrome-for-testing-public'
+                    f'/{version}/{chrome_os_version}/chromedriver-{chrome_os_version}.zip')
+    chromium_path = os.path.join(get_download_dir(), f'chromedriver-{chrome_os_version}.zip')
+    zipdirpath = os.path.join(get_download_dir(), f'chromedriver-{chrome_os_version}')
+    zippath = os.path.join(zipdirpath, 'chromedriver')
+    if chrome_os_version == 'win32':
         zippath += '.exe'
 
     if not os.path.exists(zippath):
+        print(f"Donwloading chromium from {chromium_uri} to {chromium_path}")
         download(url=chromium_uri, path=chromium_path)
+        
+        print(f"Extracting {chromium_path} to {zipdirpath}.")
         with zipfile.ZipFile(chromium_path, "r") as z:
             z.extractall(get_download_dir())
+        
+    else:
+        print("Chromium already downloaded, skipping download.")
 
-    assert os.path.exists(zippath)
+    assert os.path.exists(zippath), f"Could not find unzipped file at {zippath}"
+
+    return zipdirpath
