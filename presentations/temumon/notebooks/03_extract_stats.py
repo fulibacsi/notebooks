@@ -259,9 +259,8 @@ display(type_dist)
 # MAGIC    * Rule-based winner calculation using ATK, DEF, SPD, type advantage
 # MAGIC    * LLM-generated battle narratives for storytelling
 # MAGIC
-# MAGIC 2. **Run notebook 05_app_scaffold.py** to build the Gradio app
-# MAGIC    * Upload a challenger monster PDF
-# MAGIC    * Find which existing monster defeats it
-# MAGIC    * Display winner stats and battle narrative
+# MAGIC 2. **Run notebook 05_student_exercise** to apply what you've learned
+# MAGIC    * Extract your own monster from a PDF
+# MAGIC    * Battle it against the full roster
 # MAGIC
 # MAGIC **The data pipeline is complete!** All monster stats are ready for battle simulation.

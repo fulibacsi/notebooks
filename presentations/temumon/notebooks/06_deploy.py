@@ -5,7 +5,7 @@
 # MAGIC
 # MAGIC This notebook automates the deployment of:
 # MAGIC 1. **Data Pipeline Job** - Runs notebooks 00-03 in sequence to process monster PDFs
-# MAGIC 2. **Gradio App** - Deploys the battle app for end users
+# MAGIC 2. **Streamlit App** - Deploys the battle app for end users
 # MAGIC
 # MAGIC ## Architecture
 # MAGIC
@@ -257,7 +257,7 @@ print(f"Job URL: {w.config.host}/#job/{job_id}")
 
 # COMMAND ----------
 
-# DBTITLE 1,Part 2: Deploy Gradio App
+# DBTITLE 1,Part 2: Deploy Streamlit App
 # MAGIC %md
 # MAGIC ## Part 2: Deploy Streamlit App
 # MAGIC

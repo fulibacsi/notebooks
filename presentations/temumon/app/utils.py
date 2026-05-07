@@ -11,9 +11,6 @@ from databricks import sql
 from databricks.sdk.core import Config
 
 import pandas as pd
-import streamlit as st
-
-
 def slugify(name: str) -> str:
     """Convert monster name to filename-safe slug."""
     return re.sub(r'[^\w\s-]', '', name.lower()).replace(' ', '-')
@@ -87,7 +84,6 @@ def extract_stats(parsed_string: str) -> Dict:
     return extracted_df.iloc[0].to_dict()
 
 
-@st.cache_data(ttl=300)
 def load_roster() -> pd.DataFrame:
     """Load all monsters from the stats table.
     

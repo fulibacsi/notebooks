@@ -48,7 +48,7 @@ files_df = (
 # Pick one random file
 all_files = files_df.collect()
 if len(all_files) == 0:
-    raise Exception("No PDF files found in volume! Run 00_setup and generate_monsters.py first.")
+    raise Exception("No PDF files found in volume! Run notebook 00_setup first to generate PDFs.")
 
 random_file = random.choice(all_files)
 selected_filename = random_file._metadata.file_name
@@ -134,11 +134,16 @@ else:
 # For ai_extract(), you'll pass these as a JSON string: '["field1", "field2", ...]'
 # You need all 8 fields: name, lore, type, weakness, atk, def, spd, hp
 
-fields = ['name', 'lore', 'type', 'weakness', 'atk', 'def', 'spd', 'hp']
+fields = None  # Replace this! Define a Python list of all 8 field names.
 
-print(f"Fields to extract: {', '.join(fields)}")
-print(f"\nAs JSON string: {str(fields).replace("'", '\"')}")
-print("\nYou'll use this JSON format in the ai_extract() call.")
+# Verification (don't change this)
+if fields is None:
+    print("⚠️ You need to define the fields list first!")
+else:
+    import json
+    print(f"Fields to extract: {', '.join(fields)}")
+    print(f"\nAs JSON string: {json.dumps(fields)}")
+    print("\nYou'll use this JSON format in the ai_extract() call.")
 
 # COMMAND ----------
 

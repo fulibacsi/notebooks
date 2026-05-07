@@ -61,7 +61,6 @@ print("✓ Volume 'dropzone' created at /Volumes/workspace/monsters/dropzone")
 # COMMAND ----------
 
 # DBTITLE 1,Define PDF generation helper functions
-"""Helper functions for generating monster trading card PDFs."""
 import json
 import random
 import re
@@ -218,7 +217,6 @@ print("✓ PDF generation functions defined")
 
 # DBTITLE 1,Clean up existing PDFs (if any)
 import shutil
-from pathlib import Path
 
 # Output directory in the volume
 output_dir = "/Volumes/workspace/monsters/dropzone/raw_pdfs"

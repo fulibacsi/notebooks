@@ -13,6 +13,10 @@ from utils import slugify, parse_file, extract_stats, load_roster
 from battle import find_winner, narrate_battle
 from pdf_generator import generate_card_pdf
 
+# Decoupling trick: with this we can avoid unnecesary
+# streamlit dependency in utils.py
+load_roster = st.cache_data(ttl=300)(load_roster)
+
 TYPE_ADVANTAGE = {
     "Fire": "Ice",
     "Ice": "Earth",
