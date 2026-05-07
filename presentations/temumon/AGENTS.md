@@ -166,8 +166,8 @@ This is the key teaching moment — show the raw text vs. the structured output 
 Python notebook. Implements:
 
 1. `calculate_damage(attacker: dict, defender: dict) -> int` — pure Python, applies damage formula with type advantage
-2. `battle(monster1: dict, monster2: dict) -> Tuple[dict, dict, int]` — simulates full battle, returns (winner, loser, remaining_hp)
-3. `find_winner(challenger: dict, roster: List[dict]) -> Tuple[dict, int]` — returns the roster monster with highest score against challenger
+2. `battle(monster_a: dict, monster_b: dict) -> dict` — simulates full battle, returns dict with keys: winner, loser, score (% HP remaining), history, total_rounds
+3. `find_winner(challenger: dict, roster: List[dict]) -> Tuple[dict, dict]` — returns (best_battle_result, best_opponent) where best_opponent is the roster monster with highest performance score
 4. Battle narrative via LLM (optional demonstration)
 
 Include a test cell at the bottom: pick two monsters from the stats table and run a full battle. Print winner name + score.

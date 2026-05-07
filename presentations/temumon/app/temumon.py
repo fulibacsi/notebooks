@@ -10,9 +10,19 @@ import streamlit as st
 import pandas as pd
 
 from utils import slugify, parse_file, extract_stats, load_roster
-from battle import find_winner, narrate_battle, TYPE_ADVANTAGE
+from battle import find_winner, narrate_battle
 from pdf_generator import generate_card_pdf
 
+TYPE_ADVANTAGE = {
+    "Fire": "Ice",
+    "Ice": "Earth",
+    "Earth": "Storm",
+    "Storm": "Shadow",
+    "Shadow": "Light",
+    "Light": "Void",
+    "Void": "Poison",
+    "Poison": "Fire",
+}
 
 # Ensure environment variable is set
 assert os.getenv('DATABRICKS_WAREHOUSE_ID'), "DATABRICKS_WAREHOUSE_ID must be set in app.yaml."
@@ -46,7 +56,7 @@ def process_uploaded_pdf(uploaded_file):
         
         # Generate narrative
         with st.spinner("📖 Generating battle narrative..."):
-            narrative = narrate_battle(challenger, battle_result)
+            narrative = narrate_battle(battle_result)
         
         return challenger, battle_result, best_opponent, narrative
         

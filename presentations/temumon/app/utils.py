@@ -62,18 +62,7 @@ def extract_stats(parsed_string: str) -> Dict:
     Returns:
         Dictionary with monster stats (name, lore, type, weakness, atk, def, spd, hp)
     """
-    schema = """
-    {
-        "name": {"type": "string"},
-        "lore": {"type": "string"},
-        "type": {"type": "string"},
-        "weakness": {"type": "string"},
-        "atk": {"type": "integer"},
-        "def": {"type": "integer"},
-        "spd": {"type": "integer"},
-        "hp": {"type": "integer"}
-    }
-    """
+    schema = '["name", "lore", "type", "weakness", "atk", "def", "spd", "hp"]'
     
     sql_extract = f"""
         SELECT

@@ -55,6 +55,11 @@ print("✓ Volume 'dropzone' created at /Volumes/workspace/monsters/dropzone")
 
 # COMMAND ----------
 
+# DBTITLE 1,Restart Python to apply pip install
+%restart_python
+
+# COMMAND ----------
+
 # DBTITLE 1,Define PDF generation helper functions
 """Helper functions for generating monster trading card PDFs."""
 import json
