@@ -13,7 +13,7 @@ from utils import slugify, parse_file, extract_stats, load_roster
 from battle import find_winner, narrate_battle
 from pdf_generator import generate_card_pdf
 
-# Decoupling trick: with this we can avoid unnecesary
+# Decoupling trick: with this we can avoid unnecessary
 # streamlit dependency in utils.py
 load_roster = st.cache_data(ttl=300)(load_roster)
 
@@ -56,6 +56,9 @@ def process_uploaded_pdf(uploaded_file):
         with st.spinner(f"⚔️ Finding the best opponent for {challenger_name}..."):
             roster_df = load_roster()
             roster = roster_df.to_dict('records')
+            if not roster:
+                st.error("No monsters in the roster yet — run the data pipeline (notebooks 00–03) first.")
+                return None, None, None, None
             battle_result, best_opponent = find_winner(challenger, roster)
         
         # Generate narrative
