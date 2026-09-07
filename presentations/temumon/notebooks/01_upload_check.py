@@ -144,5 +144,5 @@ else:
 # MAGIC
 # MAGIC If files are missing or corrupted:
 # MAGIC 1. Check the upload location: `/Volumes/workspace/monsters/dropzone/raw_pdfs/`
-# MAGIC 2. Re-generate PDFs using `data/seed_monsters/generate_monsters.py`
+# MAGIC 2. Re-generate PDFs by re-running notebook `00_setup`
 # MAGIC 3. Re-run this notebook to verify

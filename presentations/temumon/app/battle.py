@@ -10,18 +10,6 @@ import pandas as pd
 from utils import sqlQuery
 
 
-# Type advantage mapping (for reference - actual combat uses the weakness field)
-TYPE_ADVANTAGE = {
-    "Fire": "Ice",
-    "Ice": "Earth",
-    "Earth": "Storm",
-    "Storm": "Shadow",
-    "Shadow": "Light",
-    "Light": "Void",
-    "Void": "Poison",
-    "Poison": "Fire"
-}
-
 
 def calculate_damage(attacker: Dict, defender: Dict) -> int:
     """Calculate damage for one attack.
@@ -55,113 +43,78 @@ def calculate_damage(attacker: Dict, defender: Dict) -> int:
     return max(1, damage)  # Minimum 1 damage
 
 
+def _safe_int(value) -> int:
+    """Cast a potentially NaN or None stat value to int."""
+    return 0 if value is None or pd.isna(value) else int(value)
+
+
+def _init_combatant(monster: Dict) -> Dict:
+    """Prepare a battle copy of a monster with HP tracking fields."""
+    hp = _safe_int(monster.get('hp'))
+    return {**monster, 'current_hp': hp, 'max_hp': hp}
+
+
 def battle(monster_a: Dict, monster_b: Dict) -> Dict:
     """Simulate a turn-based battle between two monsters.
-    
+
     Combat rules:
     - Faster monster attacks first (random on tie)
     - Each turn, both monsters attack (unless first attacker KOs defender)
     - Battle continues until one monster reaches 0 HP
     - Score = % HP remaining for winner
-    
+
     Args:
         monster_a: First monster's stats
         monster_b: Second monster's stats
-        
+
     Returns:
         Dict with keys:
-        - winner: Dict of winning monster (includes original stats)
+        - winner: Dict of winning monster
         - loser: Dict of losing monster
         - score: float (percentage HP remaining for winner, 0-100)
         - history: list of round dicts with battle events
+        - total_rounds: int (number of rounds fought)
     """
-    # Create battle copies with current HP tracking
-    a = {**monster_a}
-    b = {**monster_b}
-    
-    # Initialize current HP (handle NaN)
-    a_max_hp = a.get('hp')
-    a_max_hp = 0 if pd.isna(a_max_hp) else int(a_max_hp)
-    a['current_hp'] = a_max_hp
-    a['max_hp'] = a_max_hp
-    
-    b_max_hp = b.get('hp')
-    b_max_hp = 0 if pd.isna(b_max_hp) else int(b_max_hp)
-    b['current_hp'] = b_max_hp
-    b['max_hp'] = b_max_hp
-    
-    # Determine turn order based on speed
-    a_spd = a.get('spd')
-    a_spd = 0 if pd.isna(a_spd) else int(a_spd)
-    
-    b_spd = b.get('spd')
-    b_spd = 0 if pd.isna(b_spd) else int(b_spd)
-    
-    if a_spd > b_spd:
-        first, second = a, b
-    elif b_spd > a_spd:
-        first, second = b, a
-    else:
-        # Random on tie
-        if random.random() < 0.5:
-            first, second = a, b
-        else:
-            first, second = b, a
-    
+    a, b = _init_combatant(monster_a), _init_combatant(monster_b)
+
+    a_spd, b_spd = _safe_int(a.get('spd')), _safe_int(b.get('spd'))
+    first, second = (a, b) if a_spd > b_spd else \
+                    (b, a) if b_spd > a_spd else \
+                    random.choice([(a, b), (b, a)])
+
     history = []
     round_num = 0
-    max_rounds = 100  # Safety limit to prevent infinite loops
-    
-    while first['current_hp'] > 0 and second['current_hp'] > 0 and round_num < max_rounds:
+
+    while first['current_hp'] > 0 and second['current_hp'] > 0 and round_num < 100:
         round_num += 1
-        round_events = []
-        
-        # First attacker attacks
-        dmg = calculate_damage(first, second)
-        second['current_hp'] -= dmg
-        
-        round_events.append({
-            'attacker': first.get('name', 'Unknown'),
-            'defender': second.get('name', 'Unknown'),
-            'damage': dmg,
-            'defender_hp_after': max(0, second['current_hp']),
-            'defender_max_hp': second['max_hp']
-        })
-        
-        # If second is still alive, they counter-attack
-        if second['current_hp'] > 0:
-            dmg = calculate_damage(second, first)
-            first['current_hp'] -= dmg
-            
-            round_events.append({
-                'attacker': second.get('name', 'Unknown'),
-                'defender': first.get('name', 'Unknown'),
+        events = []
+
+        for attacker, defender in [(first, second), (second, first)]:
+            if attacker['current_hp'] <= 0:
+                break
+            dmg = calculate_damage(attacker, defender)
+            defender['current_hp'] -= dmg
+            events.append({
+                'attacker': attacker.get('name', 'Unknown'),
+                'defender': defender.get('name', 'Unknown'),
                 'damage': dmg,
-                'defender_hp_after': max(0, first['current_hp']),
-                'defender_max_hp': first['max_hp']
+                'defender_hp_after': max(0, defender['current_hp']),
+                'defender_max_hp': defender['max_hp'],
             })
-        
-        history.append({
-            'round': round_num,
-            'events': round_events
-        })
-    
-    # Determine winner and calculate score
-    if first['current_hp'] > 0:
-        winner = first
-        loser = second
-        score = (first['current_hp'] / first['max_hp']) * 100 if first['max_hp'] > 0 else 0
-    else:
-        winner = second
-        loser = first
-        score = (second['current_hp'] / second['max_hp']) * 100 if second['max_hp'] > 0 else 0
-    
+
+        history.append({'round': round_num, 'events': events})
+
+    winner, loser = (first, second) if first['current_hp'] > 0 else (second, first)
+    winner['current_hp'] = max(0, winner['current_hp'])
+    score = (winner['current_hp'] / winner['max_hp']) * 100 if winner['max_hp'] > 0 else 0
+
     return {
         'winner': winner,
         'loser': loser,
+        'winner_is_first_arg': winner is a,
         'score': score,
         'history': history,
-        'total_rounds': round_num
+        'total_rounds': round_num,
     }
 
 
@@ -187,7 +140,7 @@ def find_winner(challenger: Dict, roster: List[Dict]) -> Tuple[Dict, Dict]:
         result = battle(challenger, monster)
         
         # Calculate performance metric for this roster monster
-        if result['winner'].get('name') == monster.get('name'):
+        if not result['winner_is_first_arg']:
             # Roster monster won - performance is their remaining HP%
             performance = result['score']
         else:
@@ -227,35 +180,31 @@ def format_battle_history(history: List[Dict]) -> str:
     return "\n".join(lines)
 
 
-def narrate_battle(challenger: Dict, battle_result: Dict) -> str:
-    """Generate a dramatic battle narrative using LLM.
-    
-    Args:
-        challenger: The uploaded monster's stats
-        battle_result: The battle result dict (includes winner, loser, history, score)
-        
-    Returns:
-        A 3-4 sentence dramatic battle narrative
-    """
-    winner = battle_result['winner']
-    loser = battle_result['loser']
-    history_text = format_battle_history(battle_result['history'])
-    total_rounds = battle_result['total_rounds']
-    final_hp_pct = battle_result['score']
-    
-    # Determine if challenger won or lost
-    challenger_won = (challenger.get('name') == winner.get('name'))
-    
-    if challenger_won:
-        prompt = f"""You are narrating an epic monster battle. Write a dramatic 3-4 sentence narrative about how the challenger triumphed. Reference specific stats and battle events naturally (e.g., "With 87 DEF, {challenger['name']} shrugged off the attack...").
+def _build_prompt(
+    winner: Dict,
+    loser: Dict,
+    challenger_won: bool,
+    history_text: str,
+    final_hp_pct: float,
+    total_rounds: int,
+) -> str:
+    """Build the LLM narration prompt from battle participants and result."""
+    winner_role = "WINNER (CHALLENGER)" if challenger_won else "WINNER"
+    loser_role = "LOSER" if challenger_won else "LOSER (CHALLENGER)"
+    outcome = (
+        f"The challenger {winner['name']} proved victorious!"
+        if challenger_won else
+        f"The challenger {loser['name']} was defeated by {winner['name']}."
+    )
+    return f"""You are narrating an epic monster battle. Write a dramatic 3-4 sentence narrative about this battle. Reference specific stats and battle events naturally (e.g., "With 87 DEF, {winner['name']} shrugged off the attack...").
 
-CHALLENGER (WINNER): {challenger['name']}
-- Type: {challenger['type']}
-- ATK: {challenger['atk']}, DEF: {challenger['def']}, SPD: {challenger['spd']}, HP: {challenger['hp']}
-- Lore: {challenger.get('lore', '')}
+{winner_role}: {winner['name']}
+- Type: {winner['type']}
+- ATK: {winner['atk']}, DEF: {winner['def']}, SPD: {winner['spd']}, HP: {winner['hp']}
+- Lore: {winner.get('lore', '')}
 - Final HP: {final_hp_pct:.0f}% remaining after {total_rounds} rounds
 
-OPPONENT: {loser['name']}
+{loser_role}: {loser['name']}
 - Type: {loser['type']}
 - ATK: {loser['atk']}, DEF: {loser['def']}, SPD: {loser['spd']}, HP: {loser['hp']}
 - Lore: {loser.get('lore', '')}
@@ -263,32 +212,33 @@ OPPONENT: {loser['name']}
 BATTLE PROGRESSION:
 {history_text}
 
-The challenger {challenger['name']} proved victorious! Narrate their triumph, reference specific stats or battle moments, keep it under 100 words, and make it feel organic. Do not reveal the damage formula."""
-    else:
-        prompt = f"""You are narrating an epic monster battle. Write a dramatic 3-4 sentence narrative about this battle. Reference specific stats and battle events naturally (e.g., "With 87 DEF, Glacius shrugged off the attack...").
+{outcome} Narrate the battle, reference specific stats or battle moments, keep it under 100 words, and make it feel organic. Do not reveal the damage formula."""
 
-WINNER: {winner['name']}
-- Type: {winner['type']}
-- ATK: {winner['atk']}, DEF: {winner['def']}, SPD: {winner['spd']}, HP: {winner['hp']}
-- Lore: {winner.get('lore', '')}
-- Final HP: {final_hp_pct:.0f}% remaining after {total_rounds} rounds
 
-CHALLENGER: {challenger['name']}
-- Type: {challenger['type']}
-- ATK: {challenger['atk']}, DEF: {challenger['def']}, SPD: {challenger['spd']}, HP: {challenger['hp']}
-- Lore: {challenger.get('lore', '')}
+def narrate_battle(battle_result: Dict) -> str:
+    """Generate a dramatic battle narrative using LLM.
 
-BATTLE PROGRESSION:
-{history_text}
+    Args:
+        battle_result: The battle result dict (includes winner, loser, history, score)
 
-The winner is {winner['name']}. Narrate the battle, reference specific stats or battle moments, keep it under 100 words, and make it feel organic. Do not reveal the damage formula."""
-    
+    Returns:
+        A 3-4 sentence dramatic battle narrative
+    """
+    winner = battle_result['winner']
+    loser = battle_result['loser']
+    challenger_won = battle_result['winner_is_first_arg']
+    prompt = _build_prompt(
+        winner=winner,
+        loser=loser,
+        challenger_won=challenger_won,
+        history_text=format_battle_history(battle_result['history']),
+        final_hp_pct=battle_result['score'],
+        total_rounds=battle_result['total_rounds'],
+    )
     sql_query = f"""
         SELECT ai_query(
             'databricks-meta-llama-3-3-70b-instruct',
             {repr(prompt)}
         ) AS narrative
     """
-    
-    result_df = sqlQuery(sql_query)
-    return result_df.iloc[0]['narrative']
+    return sqlQuery(sql_query).iloc[0]['narrative']
