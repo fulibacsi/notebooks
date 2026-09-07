@@ -1,12 +1,82 @@
-# install with conda
+# =====================================================================
+#  Python 101 - everything the course needs, in one go
+# =====================================================================
+#
+#  You only have to do this ONCE, at the start of the semester.
+#
+#  1. Open the right window:
+#       Windows : Start menu -> "Anaconda Prompt"
+#       macOS   : Spotlight (cmd+space) -> "Terminal"
+#
+#  2. Copy these three lines in, one at a time, pressing Enter after each.
+#     The second one will ask "Proceed ([y]/n)?" - just press Enter.
+#
+#       conda create -n python101 python=3.12 -y
+#       conda activate python101
+#       pip install -r requirements.txt
+#
+#     (For the third line you have to be in this folder. If pip complains that
+#      it cannot find requirements.txt, drag this folder onto the window after
+#      typing `cd ` - that pastes the path for you.)
+#
+#  3. In VS Code, open any notebook, click "Select Kernel" in the top right,
+#     and choose **python101**. If you pick the wrong one, nothing will work
+#     and the error will say "No module named ...". That is the fix: come back
+#     here and pick python101.
+#
+#  Everything below installs in one step, including the "cool library of the
+#  week" ones. That way no cell ever fails in the middle of a class with a
+#  "No module named ..." message.
+#
+#  Why python 3.12 and not 3.13: ydata-profiling (chapter XI) still requires
+#  numpy below 2.2, which does not have 3.13 builds for everything it needs.
+# =====================================================================
+
+
+# ---- the notebook environment itself ----
+jupyter
+ipykernel
+ipywidgets          # the bouncing ball widget in chapter VI
+
+# ---- web scraping (chapters VII, VIII, IX) ----
 requests
-beautifulsoup4
-Pillow
-qrcode
-graphviz
-moviepy
+beautifulsoup4>=4.13
+lxml                # parser backend for pandas.read_html
+selenium>=4.6       # >=4.6 downloads the matching chromedriver by itself
 tqdm
-nltk
+
+# ---- dataframes and plotting (chapters X, XI, XII) ----
 pandas
-pandas-profiling
-the-silver-searcher
+numpy<2.2           # upper bound comes from ydata-profiling
+matplotlib
+seaborn
+openpyxl            # lets pandas read the .xlsx files
+ydata-profiling     # renamed from pandas-profiling
+
+# ---- text analysis (chapters VI, VII, IX) ----
+nltk>=3.9           # NOTE: word_tokenize needs the 'punkt_tab' asset, not 'punkt'
+
+
+# =====================================================================
+#  Cool library of the week
+# =====================================================================
+# One of these shows up in most chapters. They are installed here with
+# everything else so that nothing has to be installed mid-lesson.
+
+qrcode[pil]                       # I    - a QR code in two lines ([pil] adds Pillow)
+yt-dlp[default]                   # II   - download a video
+moviepy>=2.0                      # III  - edit video; needs the 2.x API
+Faker                             # III  - realistic fake data, speaks hu_HU
+markitdown[pdf,docx,pptx,xlsx]    # IV   - PDF/Word/Excel/html -> markdown text
+rich                              # V    - tables, colour, readable tracebacks
+gtts                              # VII  - text to speech
+trafilatura                       # VII  - article text out of any news page
+folium                            # X    - interactive maps
+streamlit                         # XII  - turn a script into a web app
+
+# Chapter IX's lib of the week is pandas.read_html - already covered by pandas
+# and lxml above. Chapter XIII's is ripgrep, which is not a python package:
+#     conda install -c conda-forge ripgrep
+
+# Not used by any notebook, but installed so it is there if you want it:
+pyfiglet                          # turns text into ASCII art

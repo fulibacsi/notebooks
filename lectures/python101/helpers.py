@@ -1,258 +1,303 @@
-# encoding: utf-8
-# Utility file for the Python101
+"""Helper utilities for the Python 101 course.
 
-# ============ imports ============
-import os
-import platform
-import re
-import time
-import string
-import operator
+The notebooks import from here with either
+
+    from helpers import import_from_csv, encrypt
+
+or, in the earlier chapters, with
+
+    from helpers import *
+
+Everything listed in ``__all__`` below is meant for you to use. Every public
+function has a docstring, so you can always ask python what it does:
+
+    help(download_series)
+
+...or, in VS Code, hover over the name or press [shift]+[tab] inside its
+brackets.
+"""
+
 import collections
-import zipfile
 import csv
-import codecs
 import random
+import re
+import string
+from functools import reduce
+from pathlib import Path
 
-import tqdm
-import requests
 import IPython.display
 
-from functools import reduce
+__all__ = [
+    # display
+    "print_image",
+    # csv
+    "import_from_csv",
+    "export_to_csv",
+    # files
+    "list_files",
+    "download_series",
+    "rename_subtitle",
+    "find_episode_number",
+    # text
+    "encrypt",
+    # teaching toys
+    "FakeMapReduce",
+    "DemoBall",
+    "BouncyBallSimulator",
+    "ExampleRPS",
+    "RPSApp",
+    "test_game",
+]
 
-# ============ functions ============
 
+# =========================================================================
+# Display
+# =========================================================================
 
-# Image print
-def print_image(source, _type='img', width=None, height=None):
-    """Display an image. (IPython notebook exclusive!)
+def print_image(source, _type="img", width=None, height=None):
+    """Display an image inside a notebook.
+
     Arguments:
-        source: image URI.
-        _type: the type of the image. available values:
-            - net: URL
-            - svg: svg image
-            - img: standard image
-        _width: display width
-        _height: display height
+        source: where the image comes from - a path, or a URL if
+            ``_type='net'``.
+        _type: what kind of image it is. One of:
+            - ``'img'``: a file on your computer (the default)
+            - ``'net'``: a URL
+            - ``'svg'``: an svg file on your computer
+        width: display width in pixels. Optional.
+        height: display height in pixels. Optional.
+
+    Returns:
+        Nothing - it draws the picture as the cell's output.
     """
-    if _type == 'net':
-        IPython.display.display(
-            IPython.display.Image(url=source, width=width, height=height)
-        )
-    elif _type == 'img':
-        IPython.display.display(
-            IPython.display.Image(filename=source, width=width, height=height)
-        )
-    elif _type == 'svg':
-        IPython.display.display(
-            IPython.display.SVG(source, width, height)
-        )
+    if _type == "net":
+        image = IPython.display.Image(url=source, width=width, height=height)
+    elif _type == "img":
+        image = IPython.display.Image(filename=source, width=width, height=height)
+    elif _type == "svg":
+        # SVG() takes no width/height, so wrap it if a size was asked for
+        image = IPython.display.SVG(filename=source)
+    else:
+        raise ValueError(f"Unknown _type {_type!r}. Use 'img', 'net' or 'svg'.")
+
+    IPython.display.display(image)
 
 
-# CSV reader
-def import_from_csv(filename):
-    """Returns the rows from the specified csv file.
+# =========================================================================
+# CSV
+# =========================================================================
+# Note the `encoding` and `newline` arguments below. They are not decoration:
+# without `encoding='utf-8'` python uses whatever the operating system happens
+# to prefer, which on Windows cannot represent 'ű' or 'ő'; and without
+# `newline=''` the csv module's line endings get doubled on Windows, so every
+# second row of the file comes out empty.
+
+def import_from_csv(filename, delimiter=","):
+    """Read a csv file and return its rows.
+
     Arguments:
         filename: the file to read.
+        delimiter: the character between two values. Default: ``','``.
+
     Returns:
-        List of the rows (where the values in the row are in a list).
+        A list of rows, where every row is a list of strings.
     """
-    data = []
-    with open(filename, 'r') as csvfile:
-        CSV = csv.reader(csvfile, dialect='excel')
-        for row in CSV:
-            data.append(row)
-    return data
+    with open(filename, "r", encoding="utf-8", newline="") as csvfile:
+        return list(csv.reader(csvfile, delimiter=delimiter))
 
 
-# CSV writer
-def export_to_csv(filename, data):
-    """Writes the data lines into a csv file.
+def export_to_csv(filename, data, delimiter=","):
+    """Write rows into a csv file.
+
     Arguments:
-        filename: the file to write the data to.
-        data: the data to write.
+        filename: the file to write to. ``.csv`` is appended if missing.
+        data: a list of rows, where every row is a list of values.
+        delimiter: the character to put between two values. Default: ``','``.
+
     Returns:
-        -
+        The path that was written, as a string.
     """
-    if '.csv' not in filename:
-        filename += '.csv'
+    path = Path(filename)
+    if path.suffix.lower() != ".csv":
+        path = path.with_suffix(".csv")
 
-    with open(filename, 'w') as csvfile:
-        CSV = csv.writer(csvfile, dialect='excel')
-        for row in data:
-            CSV.writerow(row)
+    with open(path, "w", encoding="utf-8", newline="") as csvfile:
+        csv.writer(csvfile, delimiter=delimiter).writerows(data)
+
+    return str(path)
 
 
-# file listing
-def list_files(target_dir=''):
-    """Collect the filenames from the specified directory.
-    Argument:
-        target_dir: subdirectory name. default: working directory.
+# =========================================================================
+# Files
+# =========================================================================
+
+def list_files(target_dir=""):
+    """Collect the filenames from a directory (folders are left out).
+
+    Arguments:
+        target_dir: the directory to look in. Default: the working directory.
+            Both relative (``'pics'``, ``'./pics/'``) and absolute paths work.
+
     Returns:
-        Filenames from the specified directory as a list."""
-    if len(target_dir):
-        if not target_dir[0] == '/':
-            target_dir = '/' + target_dir
-    return [_file
-            for _file in os.listdir('.' + target_dir)
-            if os.path.isfile('.' + target_dir + '/' + _file)]
+        A list of filenames (without the directory part).
+    """
+    directory = Path(target_dir) if target_dir else Path(".")
+    return sorted(item.name for item in directory.iterdir() if item.is_file())
 
 
-# fake download function
-def download_series(_name='super_series',
-                    _seasons=7,
-                    _episodes=24,
-                    _mismatch=False):
-    """Download the specified series into a directory.
+def download_series(name="super_series", seasons=7, episodes=24, mismatch=False):
+    """Pretend to download a series, by creating a folder full of empty files.
+
     One should wear sunglasses to avoid injuries caused by this awesome
     function!
 
+    For every episode it creates a video file (``.avi``) and a subtitle file
+    (``.srt``). With ``mismatch=True`` the names get messy - random separators,
+    random "release group" noise and random capitalisation - which is what the
+    subtitle-renaming exercise is about.
+
     Arguments:
-        _name: name of the series. default: 'super_series'
-        _seasons: the number of seasons. default: 7
-        _episodes: the number of episodes in a season. default: 24
-        _mismatch: does the subtitle names matches?
+        name: the name of the series, also the folder name. Default:
+            ``'super_series'``.
+        seasons: how many seasons. Default: 7.
+        episodes: how many episodes per season. Default: 24.
+        mismatch: should the subtitle names differ from the video names?
+            Default: False.
+
     Returns:
-        Log text.
+        A short log message.
     """
-    seasons = range(1, _seasons+1)
-    episodes = range(1, _episodes+1)
-    movie_ext = 'avi'
-    subtitle_ext = 'srt'
-    subdir = './' + _name
-    obfuscation = ['hdtv.xvid', 'hdtv.fov', '720p-avg', 'x264.eng', 'BDRip']
-    separators = ['.', ' ', '_', ' - ', '-']
-    possible_items = [{'season': s, 'episode': e, 'extension': x}
-                      for x in [movie_ext, subtitle_ext]
-                      for e in episodes
-                      for s in seasons]
-    if _mismatch:
-        filename = ('{filename}'
-                    '{sep1}'
-                    'S{season}'
-                    'E{episode}'
-                    '{sep2}'
-                    '{obfuscation}'
-                    '.{extension}')
-    else:
-        filename = '{filename}.S{season}E{episode}.{extension}'
+    noise = ["hdtv.xvid", "hdtv.fov", "720p-avg", "x264.eng", "BDRip"]
+    separators = [".", " ", "_", " - ", "-"]
 
-    try:
-        os.mkdir(subdir)
-    except Exception:
-        pass
+    directory = Path(name)
+    directory.mkdir(exist_ok=True)
 
-    try:
-        for item in possible_items:
-            if _mismatch:
-                path = subdir + '/' + filename.format(
-                    filename=_name,
-                    season=str(item['season']).zfill(2),
-                    episode=str(item['episode']).zfill(2),
-                    sep1=random.choice(separators),
-                    sep2=random.choice(separators),
-                    obfuscation=random.choice(obfuscation),
-                    extension=item['extension']
-                )
-                if random.randint(0,1):
-                    path = path.lower()
-                elif random.randint(0,1):
-                    path = path.upper()
-            else:
-                path = subdir + '/' + filename.format(
-                    filename=_name,
-                    season=str(item['season']).zfill(2),
-                    episode=str(item['episode']).zfill(2),
-                    extension=item['extension']
-                )
-            # file creation
-            open(path, 'w').write(path)
-    except Exception as e:
-        return 'Creation process failed, ERROR:', e.message
-    else:
-        return 'Creation successful.'
+    created = 0
+    for extension in ("avi", "srt"):
+        for season in range(1, seasons + 1):
+            for episode in range(1, episodes + 1):
+                stem = f"{name}.S{season:02d}E{episode:02d}"
+
+                if mismatch and extension == "srt":
+                    stem = (f"{name}{random.choice(separators)}"
+                            f"S{season:02d}E{episode:02d}"
+                            f"{random.choice(separators)}{random.choice(noise)}")
+                    if random.randint(0, 1):
+                        stem = stem.lower()
+                    elif random.randint(0, 1):
+                        stem = stem.upper()
+
+                path = directory / f"{stem}.{extension}"
+                path.write_text(str(path), encoding="utf-8")
+                created += 1
+
+    return f"Creation successful: {created} files in {directory}/."
 
 
-# rename erroneous subtitle
-def rename_subtitle(original, new, target_dir):
-    """Renames the specified file to a new name.
+def rename_subtitle(original, new, target_dir=""):
+    """Rename a file inside a directory.
+
     Arguments:
-        original: original filename
-        new: new filename
+        original: the current filename.
+        new: the filename you want instead.
+        target_dir: the directory both files live in. Default: the working
+            directory.
+
     Returns:
-        -
+        True if the file was renamed, False if it was not found.
     """
-    if len(target_dir):
-        if not target_dir[0] == '/':
-            target_dir = '/' + target_dir
-        if not target_dir[-1] == '/':
-            target_dir = target_dir + '/'
-    if original in list_files(target_dir):
-        os.rename('.' + target_dir + original, '.' + target_dir + new)
+    directory = Path(target_dir) if target_dir else Path(".")
+    source = directory / original
+
+    if not source.is_file():
+        return False
+
+    source.rename(directory / new)
+    return True
 
 
 def find_episode_number(filename):
-    """Finds the seasons and episode numbers.
-    Arguments:
-        filename: the filename containing the seasons and episode numbers
-    Returns:
-        The seasons-episode numbers (sXXeYY X in series numbers, Y in episode
-        numbers) or None if the number was not found.
-    """
-    pattern = re.compile(r'(\S+)[\.|\ |\ -\ |_|\-]'
-                          '(?P<number>[S|s][0-9]+[E|e][0-9]+)')
-    match = re.search(pattern, filename)
-    if match:
-        return match.group('number')
-    else:
-        return None
+    """Find the season-and-episode marker in a filename.
 
+    Arguments:
+        filename: a filename that hopefully contains something like
+            ``S01E07``.
+
+    Returns:
+        The marker as it appears in the name (e.g. ``'S01E07'``), or None if
+        there is none.
+    """
+    pattern = re.compile(r"[Ss]\d+[Ee]\d+")
+    match = pattern.search(filename)
+    return match.group(0) if match else None
+
+
+# =========================================================================
+# Text
+# =========================================================================
 
 def encrypt(text, strength=4, level=1):
-    """"Encrypt" a text by inserting random character [strength] times
-    (level=1), and by  sliding the letters by [strength] positions (level=2),
-    eg. the input letter 'a' becomes 'c' if strength equals 2.
+    """"Encrypt" a text - badly, on purpose.
 
-    Parameters:
-    -----------
-    text: string
-        Input text to be transformed.
-    strength: int
-        Intensity parameter. It will be used to determine the number of
-        distortion characters and the sliding intensity.
-    level: [1, 2]
-        Level of encription:
-            1) Only distortion characters inserted
-            2) Beside distortion characters, the characters of the input
-               strings also slides.
+    Two things can happen, depending on ``level``:
+
+    - level 1: ``strength - 1`` random letters are inserted after every
+      character of the original text. So the original text is still in there,
+      every ``strength``-th character.
+    - level 2: the same, but the original characters are also shifted along the
+      alphabet by ``strength`` positions first ('a' becomes 'c' if strength is
+      2). The shift wraps around, so 'z' becomes 'b'.
+
+    Arguments:
+        text: the text to transform.
+        strength: how much noise to add. Default: 4.
+        level: 1 or 2, see above. Default: 1.
 
     Returns:
-    --------
-    encrypted: string
-        The encrypted text.
-
+        The "encrypted" text as a string.
     """
-    abc = string.ascii_letters
-    distortion = range(strength - 1)
-    if level == 1:
-        encrypted = [
-            char +
-            ''.join([random.choice(abc) for i in distortion])
-            for char in text
-        ]
-    elif level == 2:
-        encrypted = [
-            chr(ord(char)+strength) +
-            ''.join([random.choice(abc) for i in distortion])
-            for char in text
-        ]
+    if level not in (1, 2):
+        raise ValueError(f"level must be 1 or 2, got {level!r}")
 
-    return ''.join(encrypted)
+    alphabet = string.ascii_letters
+    noise_length = strength - 1
+
+    pieces = []
+    for character in text:
+        if level == 2:
+            character = _shift_letter(character, strength)
+        noise = "".join(random.choice(alphabet) for _ in range(noise_length))
+        pieces.append(character + noise)
+
+    return "".join(pieces)
 
 
-class FakeMapReduce(object):
-    """An untested, unreliable, unparallel, undistributed
-    fake mapreduce "framework" for demonstration purposes only.
+def _shift_letter(character, offset):
+    """Move one letter along the alphabet, wrapping around at the end.
+
+    Anything that is not an ascii letter is returned unchanged.
+    """
+    if character.islower() and character in string.ascii_lowercase:
+        first = ord("a")
+    elif character.isupper() and character in string.ascii_uppercase:
+        first = ord("A")
+    else:
+        return character
+
+    return chr(first + (ord(character) - first + offset) % 26)
+
+
+# =========================================================================
+# A fake mapreduce, for the functional programming chapter
+# =========================================================================
+
+class FakeMapReduce:
+    """An untested, unreliable, unparallel, undistributed fake mapreduce
+    "framework" for demonstration purposes only.
+
+    It exists so you can see what pyspark code *looks* like without installing
+    spark. Every method returns a new FakeMapReduce, so calls can be chained.
     """
 
     def __init__(self, data, default=int):
@@ -260,108 +305,56 @@ class FakeMapReduce(object):
         self.default = default
 
     def map(self, function):
-        data = map(function, self.data)
-        return FakeMapReduce(data, self.default)
+        """Apply `function` to every item."""
+        return FakeMapReduce([function(item) for item in self.data], self.default)
 
     def flatMap(self, function):
-        data = map(function, sum(self.data, []))
-        return FakeMapReduce(data, self.default)
+        """Apply `function` to every item of every sub-list, flattened."""
+        flattened = [item for sublist in self.data for item in sublist]
+        return FakeMapReduce([function(item) for item in flattened], self.default)
 
     def filter(self, function):
-        data = filter(function, self.data)
-        return FakeMapReduce(data, self.default)
+        """Keep only the items `function` returns True for."""
+        return FakeMapReduce([item for item in self.data if function(item)],
+                             self.default)
 
     def reduce(self, function):
-        data = reduce(function,
-                      self.data,
-                      collections.defaultdict(self.default)),
-        return FakeMapReduce(data, self.default)
+        """Squash every item into a single value."""
+        result = reduce(function, self.data, collections.defaultdict(self.default))
+        return FakeMapReduce(result, self.default)
 
     def reduceByKey(self, function):
-        key_value = collections.defaultdict(list)
+        """Squash the values of each key into a single value.
 
+        Expects the data to be (key, value) pairs.
+        """
+        grouped = collections.defaultdict(list)
         for key, value in self.data:
-            key_value[key].append(value)
+            grouped[key].append(value)
 
-        for key, value in key_value.items():
-            key_value[key] = reduce(function, value)
+        reduced = {key: reduce(function, values) for key, values in grouped.items()}
+        return FakeMapReduce(reduced, self.default)
 
-        return FakeMapReduce(key_value, self.default)
+    def collect(self):
+        """Return the plain python value inside."""
+        return self.data
 
     def __str__(self):
-        return "<{} with values {}>".format(self.__class__.__name__, self.data)
+        return f"<{self.__class__.__name__} with values {self.data}>"
+
+    __repr__ = __str__
 
 
-def slowadd(x, y):
-    print('executing {} + {}'.format(x, y))
-    time.sleep(random.random())
-    return x + y
+# =========================================================================
+# The bouncing ball widget, for the classes chapter
+# =========================================================================
 
+class DemoBall:
+    """A worked example of the Ball class the exercise asks you to write.
 
-# BALL WIDGET
-from ipywidgets import widgets
-from time import sleep
-
-
-class BouncyBallSimulator(object):
-
-    def __init__(self, ball, emptychar=' '):
-        self.ball = ball
-
-        self.height = self.ball.max_x
-        self.width = self.ball.max_y
-
-        self.emptychar = emptychar
-
-        self.widget = self.init_widgets()
-
-    def init_widgets(self):
-        # iter slider
-        numiter = widgets.IntSlider(value=50, min=1, step=1)
-        # start button
-        startbutton = widgets.Button(description='start')
-        startbutton.on_click(lambda x: self.play(numiter.value))
-
-        # pack iterslider and start button together
-        buttonbox = widgets.HBox()
-        buttonbox.children = [startbutton, numiter]
-
-        # draw area
-        self.textarea = widgets.Textarea()
-
-        # packed widget
-        container = widgets.VBox()
-        container.children = [buttonbox, self.textarea]
-
-        return container
-
-    def show(self):
-        return self.widget
-
-    def draw(self, i, j):
-        field = [[self.emptychar for _ in range(self.width)]
-                 for _ in range(self.height)]
-        field[i][j] = 'o'
-
-        fieldstr = '\n'.join([''.join(char) for char in field])
-        self.textarea.value =  fieldstr
-
-    def step(self):
-        self.ball.step()
-        i, j = self.ball.x, self.ball.y
-        self.draw(i, j)
-
-    def play(self, numiter=50):
-        # draw init position
-        i, j = self.ball.x, self.ball.y
-        self.draw(i, j)
-
-        for iteration in range(numiter):
-            self.step()
-            sleep(.1)
-
-
-class DemoBall(object):
+    The ball sits at (`x`, `y`), moves by (`vx`, `vy`) every step, and bounces
+    when it reaches 0 or the maximum on either axis.
+    """
 
     def __init__(self, x, y, vx=1, vy=1, max_x=5, max_y=7):
         self.x = x
@@ -372,234 +365,203 @@ class DemoBall(object):
         self.max_y = max_y
 
     def step(self):
-        nextx = self.x + self.vx
-        nexty = self.y + self.vy
-        if nextx >= self.max_x or nextx < 0:
+        """Advance the ball by one step, bouncing off the walls."""
+        next_x = self.x + self.vx
+        next_y = self.y + self.vy
+
+        if next_x >= self.max_x or next_x < 0:
             self.vx *= -1
-            nextx = self.x + self.vx
-        if nexty >= self.max_y or nexty < 0:
+            next_x = self.x + self.vx
+
+        if next_y >= self.max_y or next_y < 0:
             self.vy *= -1
-            nexty = self.y + self.vy
-        self.x = nextx
-        self.y = nexty
+            next_y = self.y + self.vy
+
+        self.x = next_x
+        self.y = next_y
 
 
-# ============== KIVY APP FOR RPS GAME ==============
+class BouncyBallSimulator:
+    """Draws a ball object bouncing around, inside a notebook.
 
+    Give it anything with `x`, `y`, `max_x`, `max_y` and a `step()` method -
+    either `DemoBall` or the `Ball` class you wrote yourself:
+
+        BouncyBallSimulator(DemoBall(x=0, y=0, max_x=5, max_y=40)).show()
+    """
+
+    def __init__(self, ball, emptychar=" "):
+        self.ball = ball
+        self.height = ball.max_x
+        self.width = ball.max_y
+        self.emptychar = emptychar
+        self.widget = self._build_widget()
+
+    def _build_widget(self):
+        """Assemble the start button, the step slider and the drawing area."""
+        # imported here rather than at the top of the file, so that the rest of
+        # helpers.py still works if ipywidgets is not installed
+        from ipywidgets import widgets
+
+        iterations = widgets.IntSlider(value=50, min=1, step=1)
+        start = widgets.Button(description="start")
+        start.on_click(lambda _: self.play(iterations.value))
+
+        self.textarea = widgets.Textarea()
+
+        return widgets.VBox(children=[
+            widgets.HBox(children=[start, iterations]),
+            self.textarea,
+        ])
+
+    def show(self):
+        """Return the widget, so the notebook displays it."""
+        return self.widget
+
+    def draw(self, row, column):
+        """Draw the playing field with the ball at (row, column)."""
+        field = [[self.emptychar for _ in range(self.width)]
+                 for _ in range(self.height)]
+        field[row][column] = "o"
+        self.textarea.value = "\n".join("".join(line) for line in field)
+
+    def step(self):
+        """Move the ball once and redraw."""
+        self.ball.step()
+        self.draw(self.ball.x, self.ball.y)
+
+    def play(self, iterations=50):
+        """Run the simulation for `iterations` steps."""
+        import time
+
+        self.draw(self.ball.x, self.ball.y)
+        for _ in range(iterations):
+            self.step()
+            time.sleep(0.1)
+
+
+# =========================================================================
+# Rock - paper - scissors, for the classes chapter
+# =========================================================================
 
 class ExampleRPS:
+    """A worked example of the rock-paper-scissors class.
 
-    trumps = {'r': 'p',
-              'p': 's',
-              's': 'r'}
+    `hands` holds the possible moves, `play(hand)` plays one round and returns
+    `'win'`, `'lose'` or `'draw'`, and the AI's move is left behind in `ai`.
+    """
+
+    trumps = {"r": "p", "p": "s", "s": "r"}
 
     def __init__(self):
-        self.hands = ['r', 'p', 's']
+        self.hands = ["r", "p", "s"]
+        self.ai = None
 
     def move(self):
+        """Pick a move for the AI."""
         return random.choice(self.hands)
 
     def play(self, hand):
+        """Play one round against `hand`. Returns 'win', 'lose' or 'draw'."""
         self.ai = self.move()
+        # remember what would have beaten the player - the cheating version
+        # uses this to weight its own choices
         self.hands.append(self.trumps[hand])
 
-        print(f'LOG > P:{hand} AI:{self.ai}')
         if self.ai == hand:
-            return 'draw'
-
-        elif self.trumps[self.ai] == hand:
-            return 'win'
-
-        else:
-            return 'lose'
+            return "draw"
+        if self.trumps[self.ai] == hand:
+            return "win"
+        return "lose"
 
 
-def test_game(Game):
-    game = Game()
+def test_game(game_class):
+    """Check that a rock-paper-scissors class has everything RPSApp needs.
 
-    attribs = dir(game)
-    if 'play' not in attribs:
-        raise ValueError('Provided class does not have `play` method!')
+    Arguments:
+        game_class: the class itself, not an instance of it.
 
-    if 'hands' not in attribs:
-        raise ValueError('Provided class does not have `hands` attribute!')
+    Raises:
+        ValueError: with a message saying what is missing.
+    """
+    game = game_class()
 
-    hands_length = len(game.hands)
-    attribs = dir(game)
-    if 'ai' not in attribs:
-        raise ValueError('Provided class does not save ai moves '
-                         'to `ai` attribute!')
+    if not hasattr(game, "hands"):
+        raise ValueError("Provided class does not have a `hands` attribute!")
+    if not callable(getattr(game, "play", None)):
+        raise ValueError("Provided class does not have a `play` method!")
 
-    if hands_length == len(game.hands):
-        raise ValueError('Provided class does not update `hands` '
-                         'attribute with the trump hands!')
+    # `ai` is only set once a round has been played, so play one
+    hands_before = len(game.hands)
+    result = game.play(game.hands[0])
 
+    if not hasattr(game, "ai"):
+        raise ValueError("Provided class does not save the ai's move "
+                         "to an `ai` attribute!")
+    if result not in ("win", "lose", "draw"):
+        raise ValueError("`play` should return 'win', 'lose' or 'draw', "
+                         f"got {result!r}!")
+    if len(game.hands) == hands_before:
+        raise ValueError("Provided class does not update the `hands` "
+                         "attribute with the trump hands!")
 
-try:
-    from kivy.app import App
-
-    from kivy.uix.gridlayout import GridLayout
-    from kivy.uix.label import Label
-    from kivy.uix.button import Button
-
-
-    class RPSApp(App):
-        """
-        Requires a Game class with a play method.
-        Game class should:
-        - store the available moves in the hands attribute
-        - have a play method which
-            - stores the ai's move in the ai attribute
-            - returns the result of a play
-        """
-
-        def __init__(self, Game):
-            super().__init__()
-            test_game(Game)
-            self.game = Game()
-
-        def play(self, hand, widget):
-            """Play one round of the game and updates the widget text"""
-            result = self.game.play(hand)
-            widget.text = (f'PLAYER: {hand} | {result} | AI: {self.game.ai}')
-
-        def build(self):
-            """
-            Builds the following grid for playing the game:
-            +-------------------------------+
-            |          result label         |
-            +------------+-----+------------+
-            | hand_1_btn | ... | hand_n_btn |
-            +------------+-----+------------+
-
-            """
-            # result label
-            result_label = Label(text='')
-
-            # buttons
-            button_layout = GridLayout(cols=len(self.game.hands))
-            for hand in self.game.hands:
-                button = Button(text=hand,
-                                on_press=lambda btn: self.play(btn.text,
-                                                            result_label))
-                button_layout.add_widget(button)
-
-            # final grid
-            layout = GridLayout(rows=2)
-            layout.add_widget(result_label)
-            layout.add_widget(button_layout)
-
-            return layout
+    return True
 
 
-except ModuleNotFoundError:
-    import tkinter as tk
+class RPSApp:
+    """A little window to play your rock-paper-scissors class in.
 
-    class RPSApp:
-        """
-        Requires a Game class with a play method.
-        Game class should:
-        - store the available moves in the hands attribute
-        - have a play method which
-            - stores the ai's move in the ai attribute
-            - returns the result of a play
-        """
+    Give it your class (not an instance) and call `run()`:
 
-        def __init__(self, Game):
-            test_game(Game)
-            self.game = Game()
+        RPSApp(MyCheatingRPS).run()
 
-            self.window = tk.Tk()
-            self.window.columnconfigure([0, 1, 2], minsize=150)
-            self.window.rowconfigure([0, 1], minsize=50)
+    The layout is:
 
-        def play(self, hand, widget):
-            """Play one round of the game and updates the widget text"""
-            result = self.game.play(hand)
-            widget["text"] = (f'PLAYER: {hand} | {result} | AI: {self.game.ai}')
+        +-------------------------------+
+        |          result label         |
+        +------------+-----+------------+
+        | hand_1_btn | ... | hand_n_btn |
+        +------------+-----+------------+
 
-        def build(self):
-            """
-            Builds the following grid for playing the game:
-            +-------------------------------+
-            |          result label         |
-            +------------+-----+------------+
-            | hand_1_btn | ... | hand_n_btn |
-            +------------+-----+------------+
+    Built on tkinter, which ships with python - nothing to install. Closing the
+    window hands control back to the notebook.
+    """
 
-            """
-            # result label
-            result_label = tk.Label(master=self.window, text='',
-                                    font=("Courier", 24))
-            result_label.grid(row=0, columnspan=3)
+    def __init__(self, game_class):
+        test_game(game_class)
+        self.game = game_class()
+        self.window = None
+        self.result_label = None
 
-            # buttons
-            for i, hand in enumerate(self.game.hands):
-                tk.Button(
-                    master=self.window, text=hand, width=50, height=10,
-                    command=lambda hand=hand: self.play(hand, result_label)
-                ).grid(row=1, column=i)
+    def _play(self, hand):
+        """Play one round and update the label."""
+        result = self.game.play(hand)
+        self.result_label["text"] = f"PLAYER: {hand} | {result} | AI: {self.game.ai}"
 
-            self.window.mainloop()
+    def build(self):
+        """Create the window and its widgets."""
+        import tkinter as tk
 
+        self.window = tk.Tk()
+        self.window.title("Rock - Paper - Scissors")
 
-# ============ selenium installation helper functions ============
+        hands = self.game.hands
+        self.window.columnconfigure(list(range(len(hands))), minsize=150)
+        self.window.rowconfigure([0, 1], minsize=50)
 
-def download(url, path):
-    print(f'Downloading from {url}.')
-    response = requests.get(url, stream=True)
+        self.result_label = tk.Label(master=self.window, text="",
+                                     font=("Courier", 24))
+        self.result_label.grid(row=0, columnspan=len(hands))
 
-    with open(path, "wb") as handle:
-        for data in tqdm.tqdm(response.iter_content(chunk_size=65536)):
-            handle.write(data)
+        for column, hand in enumerate(hands):
+            tk.Button(
+                master=self.window, text=hand, width=12, height=4,
+                command=lambda hand=hand: self._play(hand),
+            ).grid(row=1, column=column)
 
-    assert os.path.exists(path)
-    print(f'Downloaded data saved to {path}.')
+        return self.window
 
-
-def get_download_dir():
-    download_dir = os.path.expanduser('~')
-    download_dir = os.path.join(download_dir, 'Downloads')
-    assert os.path.exists(download_dir)
-
-    return download_dir
-
-
-def chromedriver_download(version="86.0.4240.22"):
-    os_map = {
-        'Windows': 'win64',
-        'Darwin-i386': 'mac-x64',
-        'Darwin-arm': 'mac-arm64',
-        'Linux': 'linux64'
-    }
-    current_os = platform.system()
-    if current_os == 'Darwin':
-        if platform.processor() == 'i386':
-            current_os = 'Darwin-i386'
-        elif platform.processor() == 'arm':
-            current_os = 'Darwin-arm'
-    
-    chrome_os_version = os_map[current_os]
-
-    chromium_uri = (f'https://storage.googleapis.com/chrome-for-testing-public'
-                    f'/{version}/{chrome_os_version}/chromedriver-{chrome_os_version}.zip')
-    chromium_path = os.path.join(get_download_dir(), f'chromedriver-{chrome_os_version}.zip')
-    zipdirpath = os.path.join(get_download_dir(), f'chromedriver-{chrome_os_version}')
-    zippath = os.path.join(zipdirpath, 'chromedriver')
-    if chrome_os_version == 'win32':
-        zippath += '.exe'
-
-    if not os.path.exists(zippath):
-        print(f"Donwloading chromium from {chromium_uri} to {chromium_path}")
-        download(url=chromium_uri, path=chromium_path)
-        
-        print(f"Extracting {chromium_path} to {zipdirpath}.")
-        with zipfile.ZipFile(chromium_path, "r") as z:
-            z.extractall(get_download_dir())
-        
-    else:
-        print("Chromium already downloaded, skipping download.")
-
-    assert os.path.exists(zippath), f"Could not find unzipped file at {zippath}"
-
-    return zipdirpath
+    def run(self):
+        """Build the window and wait until it is closed."""
+        self.build()
+        self.window.mainloop()

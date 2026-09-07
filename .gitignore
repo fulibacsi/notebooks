@@ -166,3 +166,18 @@ lectures/ds101/private
 
 # generated dbs
 *.db
+# python101: files the notebooks generate when you run them
+lectures/*/data/write_demo.txt
+lectures/*/alc_profile.html
+lectures/*/data/matrix.csv
+lectures/*/data/merged.csv
+lectures/*/data/fun.txt
+lectures/*/data/important_urls.txt
+lectures/*/super_series/
+lectures/*/messy/
+lectures/*/my_series/
+lectures/*/moving_average_demo.py
+lectures/*/articles.py
+lectures/*/data/write_demo_encrypted.txt
+lectures/*/data/*_encrypted.*
+lectures/*/data/*_decrypted.*
