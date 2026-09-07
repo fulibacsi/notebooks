@@ -533,7 +533,7 @@ class RPSApp:
         self.window = None
         self.result_label = None
 
-    def _play(self, hand):
+    def play(self, hand):
         """Play one round and update the label."""
         result = self.game.play(hand)
         self.result_label["text"] = f"PLAYER: {hand} | {result} | AI: {self.game.ai}"
@@ -556,7 +556,7 @@ class RPSApp:
         for column, hand in enumerate(hands):
             tk.Button(
                 master=self.window, text=hand, width=12, height=4,
-                command=lambda hand=hand: self._play(hand),
+                command=lambda hand=hand: self.play(hand),
             ).grid(row=1, column=column)
 
         return self.window
