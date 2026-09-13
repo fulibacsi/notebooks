@@ -243,8 +243,7 @@ def encrypt(text, strength=4, level=1):
     Two things can happen, depending on ``level``:
 
     - level 1: ``strength - 1`` random letters are inserted after every
-      character of the original text. So the original text is still in there,
-      every ``strength``-th character.
+      character of the original text.
     - level 2: the same, but the original characters are also shifted along the
       alphabet by ``strength`` positions first ('a' becomes 'c' if strength is
       2). The shift wraps around, so 'z' becomes 'b'.
