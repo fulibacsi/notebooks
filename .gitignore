@@ -181,3 +181,10 @@ lectures/*/articles.py
 lectures/*/data/write_demo_encrypted.txt
 lectures/*/data/*_encrypted.*
 lectures/*/data/*_decrypted.*
+lectures/*/*.mp4
+lectures/*/*.webm
+lectures/*/*.mkv
+lectures/*/whoa.gif
+lectures/*/mylittlesave.sav
+lectures/*/data/*.mp3
+lectures/*/data/python_book.pdf
