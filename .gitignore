@@ -177,6 +177,7 @@ lectures/*/super_series/
 lectures/*/messy/
 lectures/*/my_series/
 lectures/*/moving_average_demo.py
+lectures/*/turtle_demo.py
 lectures/*/articles.py
 lectures/*/data/write_demo_encrypted.txt
 lectures/*/data/*_encrypted.*
