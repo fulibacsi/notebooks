@@ -73,10 +73,12 @@ trafilatura                       # VII  - article text out of any news page
 folium                            # X    - interactive maps
 streamlit                         # XII  - turn a script into a web app
 
-# Chapter IX's lib of the week is pandas.read_html - already covered by pandas
-# and lxml above. Chapter XIII's is ripgrep, which is not a python package:
+# Chapter IX's lib of the week is tqdm - already listed above. Chapter XIII's
+# is ripgrep, which is not a python package:
 #     conda install -c conda-forge ripgrep
 
 # Not used by any notebook, but installed so it is there if you want it:
 pyfiglet                          # turns text into ASCII art
 rich                              # tables, colour, readable tracebacks
+# pandas.read_html                # every <table> on a page into a dataframe
+#                                 #   (comes with pandas and lxml above)
