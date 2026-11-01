@@ -32,8 +32,8 @@ matching exercise needs updating too. Which is itself the lesson of chapter IX.
 
 ## Not covered
 
-- Chapter IX, section III (the REST API demo) points at a `bud.hu` endpoint that
-  now returns 404. The method is unchanged; the example target needs replacing.
-  The solutions notebook shows a working, cookie-free alternative.
+- Chapter IX, section III (the REST API demo) uses Budapest Airport's current
+  `ajax/flight-search` endpoint, but its screenshots (`pics/RESTAPI_*.png`) still
+  show the airport's previous site. The method is the same; the pictures are not.
 - Chapters VI, VI. extra and XIII are currently skipped in the course. Their
   solutions exist but have had less classroom exposure.
