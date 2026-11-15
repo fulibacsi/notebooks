@@ -26,6 +26,7 @@ from functools import reduce
 from pathlib import Path
 
 import IPython.display
+import requests
 
 __all__ = [
     # display
@@ -40,6 +41,9 @@ __all__ = [
     "find_episode_number",
     # text
     "encrypt",
+    # elections
+    "download_json",
+    "download_election_results",
     # teaching toys
     "FakeMapReduce",
     "DemoBall",
@@ -54,13 +58,13 @@ __all__ = [
 # Display
 # =========================================================================
 
-def print_image(source, _type="img", width=None, height=None):
+def print_image(source, kind="img", width=None, height=None):
     """Display an image inside a notebook.
 
     Arguments:
         source: where the image comes from - a path, or a URL if
-            ``_type='net'``.
-        _type: what kind of image it is. One of:
+            ``kind='net'``.
+        kind: what kind of image it is. One of:
             - ``'img'``: a file on your computer (the default)
             - ``'net'``: a URL
             - ``'svg'``: an svg file on your computer
@@ -70,15 +74,15 @@ def print_image(source, _type="img", width=None, height=None):
     Returns:
         Nothing - it draws the picture as the cell's output.
     """
-    if _type == "net":
+    if kind == "net":
         image = IPython.display.Image(url=source, width=width, height=height)
-    elif _type == "img":
+    elif kind == "img":
         image = IPython.display.Image(filename=source, width=width, height=height)
-    elif _type == "svg":
+    elif kind == "svg":
         # SVG() takes no width/height, so wrap it if a size was asked for
         image = IPython.display.SVG(filename=source)
     else:
-        raise ValueError(f"Unknown _type {_type!r}. Use 'img', 'net' or 'svg'.")
+        raise ValueError("Unknown kind: " + str(kind) + ". Use 'img', 'net' or 'svg'.")
 
     IPython.display.display(image)
 
@@ -265,14 +269,14 @@ def encrypt(text, strength=4, level=1):
     pieces = []
     for character in text:
         if level == 2:
-            character = _shift_letter(character, strength)
-        noise = "".join(random.choice(alphabet) for _ in range(noise_length))
+            character = shift_letter(character, strength)
+        noise = "".join(random.choice(alphabet) for i in range(noise_length))
         pieces.append(character + noise)
 
     return "".join(pieces)
 
 
-def _shift_letter(character, offset):
+def shift_letter(character, offset):
     """Move one letter along the alphabet, wrapping around at the end.
 
     Anything that is not an ascii letter is returned unchanged.
@@ -285,6 +289,106 @@ def _shift_letter(character, offset):
         return character
 
     return chr(first + (ord(character) - first + offset) % 26)
+
+
+# =========================================================================
+# Elections
+# =========================================================================
+# The National Election Office (valasztas.hu) publishes the results of the
+# parliamentary elections as JSON files - the same files its own results site
+# downloads. python101_10_scraping_vote_results.ipynb shows how to find them.
+
+def download_json(url):
+    """Download a JSON file from the internet.
+
+    Arguments:
+        url: the address of the file.
+
+    Returns:
+        The contents of the file, as python lists and dictionaries.
+    """
+    response = requests.get(url, timeout=60)
+    response.raise_for_status()
+    return response.json()
+
+
+def party_name(candidate, parties):
+    """Return the name of the party that nominated a candidate.
+
+    Parties that run together nominate one common candidate, so a candidate
+    can have more than one party: their names are joined with '-'.
+    Independent candidates have no party at all.
+
+    Arguments:
+        candidate: one candidate, as the election office lists it.
+        parties: a dictionary that gives the party for each party code.
+
+    Returns:
+        The name of the party (or parties), as a string.
+    """
+    names = []
+    for code in candidate["jelolo_szervezetek"]:
+        names.append(parties[code]["nev"])
+
+    if not names:
+        return "Független jelölt"
+    return "-".join(names)
+
+
+def download_election_results(year):
+    """Download the results of a Hungarian parliamentary election.
+
+    Only the 106 single-member constituencies are collected, with one row for
+    every candidate. Works for the elections of 2022 and 2026.
+
+    Arguments:
+        year: the year of the election.
+
+    Returns:
+        A list of rows. Every row is a dictionary with the keys 'region',
+        'subregion', 'name', 'party', 'votes' and 'winner'.
+    """
+    address = "https://vtr.valasztas.hu/ogy" + str(year) + "/data/"
+
+    # config.json tells us which version of the data to download:
+    # 'ver' is the register of the candidates, 'szavossz' is the vote count
+    config = download_json(address + "config.json")
+    register = address + config["ver"] + "/ver/"
+    count = address + config["szavossz"] + "/szavossz/"
+
+    # the districts, looked up by their county code and district number
+    districts = {}
+    for district in download_json(register + "OevkAdatok.json")["list"]:
+        districts[(district["maz"], district["evk"])] = district
+
+    # the candidates, looked up by their id
+    candidates = {}
+    for candidate in download_json(register + "EgyeniJeloltek.json")["list"]:
+        candidates[candidate["ej_id"]] = candidate
+
+    # the parties, looked up by their code
+    parties = {}
+    for party in download_json(register + "Szervezetek.json")["list"]:
+        parties[party["szkod"]] = party
+
+    # the vote count: one record for every district, with one item for
+    # every candidate who ran there
+    rows = []
+    for record in download_json(count + "OevkJkv.json")["list"]:
+        district = districts[(record["maz"], record["evk"])]
+        for item in record["egyeni_jkv"]["tetelek"]:
+            candidate = candidates[item["ej_id"]]
+            rows.append({
+                "region": district["maz_nev"],
+                "subregion": district["evk_nev"],
+                "name": candidate["neve"],
+                "party": party_name(candidate, parties),
+                "votes": item["szavazat"],
+                # only the winner's item has a 'mandatum' (seat) in it
+                "winner": item.get("mandatum") == 1,
+            })
+
+    return rows
 
 
 # =========================================================================
@@ -394,9 +498,9 @@ class BouncyBallSimulator:
         self.height = ball.max_x
         self.width = ball.max_y
         self.emptychar = emptychar
-        self.widget = self._build_widget()
+        self.widget = self.build_widget()
 
-    def _build_widget(self):
+    def build_widget(self):
         """Assemble the start button, the step slider and the drawing area."""
         # imported here rather than at the top of the file, so that the rest of
         # helpers.py still works if ipywidgets is not installed
@@ -404,7 +508,7 @@ class BouncyBallSimulator:
 
         iterations = widgets.IntSlider(value=50, min=1, step=1)
         start = widgets.Button(description="start")
-        start.on_click(lambda _: self.play(iterations.value))
+        start.on_click(lambda button: self.play(iterations.value))
 
         self.textarea = widgets.Textarea()
 
@@ -419,8 +523,8 @@ class BouncyBallSimulator:
 
     def draw(self, row, column):
         """Draw the playing field with the ball at (row, column)."""
-        field = [[self.emptychar for _ in range(self.width)]
-                 for _ in range(self.height)]
+        field = [[self.emptychar for i in range(self.width)]
+                 for j in range(self.height)]
         field[row][column] = "o"
         self.textarea.value = "\n".join("".join(line) for line in field)
 
@@ -434,7 +538,7 @@ class BouncyBallSimulator:
         import time
 
         self.draw(self.ball.x, self.ball.y)
-        for _ in range(iterations):
+        for i in range(iterations):
             self.step()
             time.sleep(0.1)
 
