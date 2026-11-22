@@ -296,7 +296,7 @@ def shift_letter(character, offset):
 # =========================================================================
 # The National Election Office (valasztas.hu) publishes the results of the
 # parliamentary elections as JSON files - the same files its own results site
-# downloads. python101_10_scraping_vote_results.ipynb shows how to find them.
+# downloads. python101_10_data_scraping.ipynb shows how to find them.
 
 def download_json(url):
     """Download a JSON file from the internet.
