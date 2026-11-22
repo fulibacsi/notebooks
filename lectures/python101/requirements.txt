@@ -28,8 +28,8 @@
 #  week" ones. That way no cell ever fails in the middle of a class with a
 #  "No module named ..." message.
 #
-#  Why python 3.12 and not 3.13: ydata-profiling (chapter XI) still requires
-#  numpy below 2.2, which does not have 3.13 builds for everything it needs.
+#  Why python 3.12 (and numpy below 2.2): that is what the notebooks are
+#  tested with.
 # =====================================================================
 
 
@@ -47,11 +47,10 @@ tqdm
 
 # ---- dataframes and plotting (chapters X, XI, XII) ----
 pandas
-numpy<2.2           # upper bound comes from ydata-profiling
+numpy<2.2           # the version the notebooks are tested with
 matplotlib
 seaborn
 openpyxl            # lets pandas read the .xlsx files
-ydata-profiling     # renamed from pandas-profiling
 
 # ---- text analysis (chapters VI, VII, IX) ----
 nltk>=3.9           # NOTE: word_tokenize needs the 'punkt_tab' asset, not 'punkt'
@@ -71,6 +70,7 @@ markitdown[pdf,docx,pptx,xlsx]    # V    - PDF/Word/Excel/html -> markdown text
 gtts                              # VII  - text to speech
 trafilatura                       # VII  - article text out of any news page
 folium                            # X    - interactive maps
+fg-data-profiling                 # XI   - a full report on a dataframe (was ydata-profiling)
 streamlit                         # XII  - turn a script into a web app
 
 # Chapter IX's lib of the week is tqdm, and chapter X's (next to folium) is
